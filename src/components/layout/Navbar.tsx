@@ -2,29 +2,45 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, Search, Menu, X, Smartphone } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, Smartphone, Globe } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { useToast } from '@/hooks/use-toast';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [language, setLanguage] = useState<'EN' | 'BN'>('BN');
   const { cartCount } = useCart();
+  const { toast } = useToast();
+
+  const toggleLanguage = () => {
+    const newLang = language === 'BN' ? 'EN' : 'BN';
+    setLanguage(newLang);
+    toast({
+      title: newLang === 'BN' ? "ভাষা পরিবর্তন করা হয়েছে" : "Language Changed",
+      description: newLang === 'BN' ? "এখন আপনি বাংলা ভার্সন দেখছেন।" : "You are now viewing the English version.",
+    });
+  };
 
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Top bar */}
       <div className="bg-[#f5f5f5] text-[12px] py-1.5 hidden lg:block border-b">
         <div className="container mx-auto px-4 flex justify-end items-center gap-6 text-[#757575] font-medium">
-          <Link href="#" className="hover:text-primary transition-colors">Save More on App</Link>
-          <Link href="#" className="hover:text-primary transition-colors">Become a Seller</Link>
-          <Link href="#" className="hover:text-primary transition-colors">Help & Support</Link>
-          <Link href="#" className="hover:text-primary transition-colors uppercase font-bold text-gray-800">Login</Link>
-          <Link href="#" className="hover:text-primary transition-colors uppercase font-bold text-gray-800 border-l pl-6">Sign Up</Link>
-          <button className="hover:text-primary transition-colors flex items-center gap-1 border-l pl-6">
-            ভাষা
+          <Link href="/app-download" className="hover:text-primary transition-colors">Save More on App</Link>
+          <Link href="/seller" className="hover:text-primary transition-colors">Become a Seller</Link>
+          <Link href="/help" className="hover:text-primary transition-colors">Help & Support</Link>
+          <Link href="/auth/login" className="hover:text-primary transition-colors uppercase font-bold text-gray-800">Login</Link>
+          <Link href="/auth/signup" className="hover:text-primary transition-colors uppercase font-bold text-gray-800 border-l pl-6">Sign Up</Link>
+          <button 
+            onClick={toggleLanguage}
+            className="hover:text-primary transition-colors flex items-center gap-1 border-l pl-6 font-bold text-primary"
+          >
+            <Globe className="w-3 h-3" />
+            {language === 'BN' ? 'English' : 'বাংলা'}
           </button>
         </div>
       </div>
@@ -33,7 +49,7 @@ export default function Navbar() {
       <nav className="bg-white border-b shadow-sm py-4">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-8">
-            {/* Logo - Points to Admin Panel as requested */}
+            {/* Logo - Points to Admin Panel */}
             <Link href="/admin" className="shrink-0 group">
               <span className="text-3xl font-black text-primary tracking-tighter group-hover:opacity-80 transition-opacity">TechShop BD</span>
               <span className="block text-[10px] text-muted-foreground font-bold uppercase tracking-tighter -mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Admin Panel</span>
@@ -71,7 +87,7 @@ export default function Navbar() {
                 {isMenuOpen ? <X /> : <Menu />}
               </Button>
               
-              <Link href="#" className="hidden lg:flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-primary font-bold text-sm">
+              <Link href="/app-download" className="hidden lg:flex items-center gap-2 bg-primary/10 px-4 py-2 rounded-full text-primary font-bold text-sm">
                 <Smartphone className="w-4 h-4" /> Download App
               </Link>
             </div>
@@ -94,8 +110,10 @@ export default function Navbar() {
             <div className="flex flex-col gap-4 font-medium text-gray-600">
               <Link href="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
               <Link href="/admin" onClick={() => setIsMenuOpen(false)}>Admin Panel</Link>
-              <Link href="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link>
-              <Link href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
+              <Link href="/seller" onClick={() => setIsMenuOpen(false)}>Become a Seller</Link>
+              <Link href="/help" onClick={() => setIsMenuOpen(false)}>Help & Support</Link>
+              <Link href="/auth/login" onClick={() => setIsMenuOpen(false)}>Login</Link>
+              <Link href="/auth/signup" onClick={() => setIsMenuOpen(false)}>Sign Up</Link>
             </div>
           </div>
         )}
