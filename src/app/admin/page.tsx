@@ -18,7 +18,11 @@ import {
   Plus,
   Search,
   MoreVertical,
-  Filter
+  Filter,
+  Save,
+  MapPin,
+  Phone,
+  Mail
 } from 'lucide-react';
 import { 
   Card, 
@@ -63,7 +67,7 @@ import {
   SelectValue 
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
-import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
+import { useToast } from '@/hooks/use-toast';
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -95,6 +99,22 @@ const recentOrders = [
 
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
+  const { toast } = useToast();
+  
+  // Store Settings State
+  const [storeSettings, setStoreSettings] = useState({
+    address: "Multiplan Center, Level 5, Elephant Road, Dhaka",
+    phone: "+880 1700-000000",
+    email: "support@techshopbd.com"
+  });
+
+  const handleSaveSettings = (e: React.FormEvent) => {
+    e.preventDefault();
+    toast({
+      title: "Settings Saved",
+      description: "Store contact information has been updated successfully."
+    });
+  };
 
   return (
     <div className="flex min-h-screen bg-muted/30">
@@ -135,10 +155,11 @@ export default function AdminDashboard() {
           >
             <Users className="w-5 h-5" /> Customers
           </Button>
-          <Button variant="ghost" className="w-full justify-start gap-3">
-            <BarChart3 className="w-5 h-5" /> Analytics
-          </Button>
-          <Button variant="ghost" className="w-full justify-start gap-3">
+          <Button 
+            variant={activeTab === "settings" ? "secondary" : "ghost"} 
+            className={`w-full justify-start gap-3 ${activeTab === "settings" ? "bg-primary/10 text-primary font-bold" : ""}`}
+            onClick={() => setActiveTab("settings")}
+          >
             <Settings className="w-5 h-5" /> Settings
           </Button>
         </nav>
@@ -484,9 +505,89 @@ export default function AdminDashboard() {
             </Card>
           )}
 
+          {activeTab === "settings" && (
+            <div className="max-w-2xl">
+              <Card className="shadow-sm border-none">
+                <CardHeader>
+                  <CardTitle>Store Settings</CardTitle>
+                  <CardDescription>Update your store's contact information and presence.</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleSaveSettings} className="space-y-6">
+                    <div className="space-y-4">
+                      <div className="space-y-2">
+                        <Label htmlFor="address" className="text-sm font-bold flex items-center gap-2">
+                          <MapPin className="w-4 h-4 text-primary" /> Store Address
+                        </Label>
+                        <Input 
+                          id="address" 
+                          value={storeSettings.address} 
+                          onChange={(e) => setStoreSettings({...storeSettings, address: e.target.value})}
+                          placeholder="Enter showroom address" 
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="phone" className="text-sm font-bold flex items-center gap-2">
+                          <Phone className="w-4 h-4 text-primary" /> Contact Phone
+                        </Label>
+                        <Input 
+                          id="phone" 
+                          value={storeSettings.phone} 
+                          onChange={(e) => setStoreSettings({...storeSettings, phone: e.target.value})}
+                          placeholder="+880 1XXX-XXXXXX" 
+                        />
+                      </div>
+                      <div className="space-y-2">
+                        <Label htmlFor="email" className="text-sm font-bold flex items-center gap-2">
+                          <Mail className="w-4 h-4 text-primary" /> Support Email
+                        </Label>
+                        <Input 
+                          id="email" 
+                          type="email"
+                          value={storeSettings.email} 
+                          onChange={(e) => setStoreSettings({...storeSettings, email: e.target.value})}
+                          placeholder="support@techshopbd.com" 
+                        />
+                      </div>
+                    </div>
+                    <Button type="submit" className="w-full bg-primary text-white font-bold rounded-full h-11 gap-2">
+                      <Save className="w-4 h-4" /> Save Changes
+                    </Button>
+                  </form>
+                </CardContent>
+              </Card>
+
+              <Card className="mt-8 shadow-sm border-none bg-primary/5 border border-primary/10">
+                <CardHeader>
+                  <CardTitle className="text-lg">Appearance Settings</CardTitle>
+                  <CardDescription>These settings affect how your store looks to customers.</CardDescription>
+                </CardHeader>
+                <CardContent className="space-y-4">
+                  <div className="flex items-center justify-between p-4 bg-white rounded-xl border">
+                    <div>
+                      <div className="font-bold text-sm">Maintenance Mode</div>
+                      <div className="text-xs text-muted-foreground">Temporarily disable front-end access</div>
+                    </div>
+                    <div className="w-12 h-6 bg-muted rounded-full relative cursor-pointer">
+                      <div className="w-4 h-4 bg-white rounded-full absolute left-1 top-1 shadow-sm border" />
+                    </div>
+                  </div>
+                  <div className="flex items-center justify-between p-4 bg-white rounded-xl border">
+                    <div>
+                      <div className="font-bold text-sm">Flash Sale Visibility</div>
+                      <div className="text-xs text-muted-foreground">Show/Hide the flash sale banner on home</div>
+                    </div>
+                    <div className="w-12 h-6 bg-primary rounded-full relative cursor-pointer">
+                      <div className="w-4 h-4 bg-white rounded-full absolute right-1 top-1 shadow-sm" />
+                    </div>
+                  </div>
+                </CardContent>
+              </Card>
+            </div>
+          )}
+
         </div>
       </main>
     </div>
   );
 }
-
