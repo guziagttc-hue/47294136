@@ -13,6 +13,7 @@ export type Product = {
   isFlashSale?: boolean;
   rating?: number;
   reviewsCount?: number;
+  brand?: string;
   specifications: Record<string, string>;
 };
 
@@ -30,6 +31,27 @@ export const categories = [
 ];
 
 export const products: Product[] = [
+  // New DJI Product requested
+  {
+    id: 'dji-neo-bumper',
+    name: '【Innovative】 Gimbal Bumper for DJI Neo Guard Bar 3D Printing ABS Anti-Collision Camera Lens Protector',
+    category: 'electronics',
+    price: 1142,
+    originalPrice: 1604,
+    brand: 'No Brand',
+    image: 'https://picsum.photos/seed/dji1/600/600',
+    description: '3D printed ABS engineering material molded in one piece Structure optimization, ultra-lightweight design Snap installation, no need to disassemble the fuselage screws. Does not affect the palm takeoff and landing. Easy to install, quick release design, snap-on fixation.',
+    rating: 0,
+    reviewsCount: 0,
+    specifications: { 
+      "Brand": "No Brand", 
+      "SKU": "550724462_BD-2583417821", 
+      "Model": "Boost", 
+      "Material": "ABS Engineering Plastic",
+      "Weight": "3.5g",
+      "Compatible Model": "DJI Neo"
+    }
+  },
   // Flash Sale Items
   {
     id: 'f1',
@@ -145,65 +167,5 @@ export const products: Product[] = [
     rating: 4.9,
     reviewsCount: 359,
     specifications: { "Colors": "18", "Finish": "Matte & Glitter" }
-  },
-  {
-    id: 'j4',
-    name: 'Bamboo Stakes 10 Pcs for gardening (2 Ft Long)',
-    category: 'home',
-    price: 77,
-    originalPrice: 140,
-    image: PlaceHolderImages.find(img => img.id === 'prod-stak')?.imageUrl || '',
-    description: 'Durable bamboo stakes for plant support in gardens.',
-    rating: 4.4,
-    reviewsCount: 11,
-    specifications: { "Count": "10 Pcs", "Length": "2 Ft" }
-  },
-  {
-    id: 'j5',
-    name: 'Lanbena Teeth Whitening Essence - 10ml',
-    category: 'beauty',
-    price: 161,
-    originalPrice: 550,
-    image: PlaceHolderImages.find(img => img.id === 'prod-teeth')?.imageUrl || '',
-    description: 'Effective teeth whitening essence for a brighter smile.',
-    rating: 4.6,
-    reviewsCount: 700,
-    specifications: { "Volume": "10ml" }
-  },
-  {
-    id: 'j6',
-    name: 'Japan Anime Full Sleeve Jersey 2025/26 Thai Premium',
-    category: 'sports',
-    price: 351,
-    originalPrice: 370,
-    image: PlaceHolderImages.find(img => img.id === 'prod-jersey')?.imageUrl || '',
-    description: 'Premium quality football jersey with anime theme.',
-    rating: 4.3,
-    reviewsCount: 40,
-    specifications: { "Type": "Full Sleeve", "Quality": "Thai Premium" }
-  },
-  {
-    id: 'j7',
-    name: 'Apple Logo Label Sticker Badge Silver chrome',
-    category: 'electronics',
-    price: 65,
-    originalPrice: 250,
-    image: PlaceHolderImages.find(img => img.id === 'prod-sticker')?.imageUrl || '',
-    description: 'Stylish chrome decal for your tech devices.',
-    rating: 4.7,
-    reviewsCount: 27,
-    specifications: { "Color": "Silver Chrome", "Material": "Metal Decal" }
-  },
-  {
-    id: 'j8',
-    name: 'Pet Home/House For Dog Cat Rabbit',
-    category: 'pets',
-    price: 590,
-    originalPrice: 900,
-    image: PlaceHolderImages.find(img => img.id === 'prod-pethouse')?.imageUrl || '',
-    description: 'Comfortable indoor house for your small pets.',
-    rating: 4.5,
-    reviewsCount: 117,
-    specifications: { "Material": "Soft Fabric", "Size": "Small/Medium" }
   }
 ];
