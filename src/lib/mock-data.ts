@@ -10,110 +10,98 @@ export type Product = {
   description: string;
   image: string;
   isFeatured?: boolean;
+  isFlashSale?: boolean;
+  rating?: number;
+  reviewsCount?: number;
   specifications: Record<string, string>;
 };
 
 export const categories = [
-  { id: 'smartphones', name: 'Smartphones', icon: 'Smartphone' },
-  { id: 'laptops', name: 'Laptops', icon: 'Laptop' },
-  { id: 'audio', name: 'Audio', icon: 'Headphones' },
-  { id: 'accessories', name: 'Accessories', icon: 'Keyboard' },
-  { id: 'gaming', name: 'Gaming', icon: 'Gamepad' }
+  { id: 'fashion', name: "Women's Fashion", icon: 'Shirt' },
+  { id: 'electronics', name: 'Electronics', icon: 'Smartphone' },
+  { id: 'home', name: 'Home & Living', icon: 'Home' },
+  { id: 'beauty', name: 'Beauty', icon: 'Sparkles' },
+  { id: 'watches', name: 'Watches', icon: 'Watch' },
+  { id: 'groceries', name: 'Groceries', icon: 'ShoppingBasket' },
+  { id: 'sports', name: 'Sports', icon: 'Dribbble' },
+  { id: 'toys', name: 'Toys', icon: 'Gamepad2' }
 ];
 
 export const products: Product[] = [
   {
+    id: 'f1',
+    name: 'Portable Mini Rechargeable Travel Fan 3 Gear Speed',
+    category: 'electronics',
+    price: 288,
+    originalPrice: 1200,
+    image: PlaceHolderImages.find(img => img.id === 'prod-fan')?.imageUrl || '',
+    description: 'Mini Fan Body, USB Charging, Perfect for Outdoor & Indoor Use.',
+    isFlashSale: true,
+    rating: 4.8,
+    reviewsCount: 2,
+    specifications: { "Power": "USB Rechargeable", "Speed": "3 Gears", "Material": "ABS" }
+  },
+  {
+    id: 'f2',
+    name: 'New Designed Gown 1 Piece Long Kurti For Women',
+    category: 'fashion',
+    price: 420,
+    originalPrice: 1200,
+    image: PlaceHolderImages.find(img => img.id === 'prod-gown')?.imageUrl || '',
+    description: 'Elegant gown long kurti for stylish women and girls.',
+    isFlashSale: true,
+    rating: 4.5,
+    reviewsCount: 141,
+    specifications: { "Fabric": "Cotton Blend", "Length": "Long", "Type": "1 Piece" }
+  },
+  {
+    id: 'f3',
+    name: '18 Colors Eyeshadow Palette Glitter Makeup Matte',
+    category: 'beauty',
+    price: 180,
+    originalPrice: 500,
+    image: PlaceHolderImages.find(img => img.id === 'prod-makeup')?.imageUrl || '',
+    description: 'Professional 18 colors palette for stunning eye makeup.',
+    isFlashSale: true,
+    rating: 4.9,
+    reviewsCount: 359,
+    specifications: { "Colors": "18", "Finish": "Matte & Glitter" }
+  },
+  {
     id: '1',
-    name: 'iPhone 15 Pro Max',
-    category: 'smartphones',
+    name: 'iPhone 15 Pro Max - Titanium Case',
+    category: 'electronics',
     price: 154999,
     originalPrice: 164999,
     image: PlaceHolderImages.find(img => img.id === 'prod-iphone')?.imageUrl || '',
-    description: 'The ultimate iPhone with titanium design, A17 Pro chip, and advanced camera system.',
+    description: 'The ultimate iPhone with titanium design and A17 Pro chip.',
     isFeatured: true,
-    specifications: {
-      "Display": "6.7-inch Super Retina XDR",
-      "Chip": "A17 Pro",
-      "Camera": "48MP Main | Ultra Wide | Telephoto",
-      "Battery": "Up to 29 hours video playback",
-      "Weight": "221 grams"
-    }
+    rating: 5.0,
+    reviewsCount: 48,
+    specifications: { "Display": "6.7-inch", "Chip": "A17 Pro", "Weight": "221g" }
   },
   {
-    id: '2',
-    name: 'MacBook Air M3',
-    category: 'laptops',
-    price: 124999,
-    originalPrice: 134999,
-    image: PlaceHolderImages.find(img => img.id === 'prod-macbook')?.imageUrl || '',
-    description: 'Supercharged by the M3 chip, MacBook Air is surprisingly thin and incredibly fast.',
-    isFeatured: true,
-    specifications: {
-      "Chip": "Apple M3 Chip",
-      "Memory": "8GB Unified Memory",
-      "Storage": "256GB SSD",
-      "Display": "13.6-inch Liquid Retina",
-      "Battery": "Up to 18 hours"
-    }
+    id: 'c1',
+    name: '33W Fast Type-C Charger for Xiaomi, Vivo, Samsung',
+    category: 'electronics',
+    price: 358,
+    originalPrice: 1350,
+    image: PlaceHolderImages.find(img => img.id === 'prod-charger')?.imageUrl || '',
+    description: 'High speed 33W wall charger with Type-C output.',
+    rating: 4.4,
+    reviewsCount: 232,
+    specifications: { "Output": "33W", "Connector": "Type-C" }
   },
   {
-    id: '3',
-    name: 'Sony WH-1000XM5',
-    category: 'audio',
-    price: 34999,
-    image: PlaceHolderImages.find(img => img.id === 'prod-sony')?.imageUrl || '',
-    description: 'Industry-leading noise cancellation and magnificent sound quality.',
-    isFeatured: true,
-    specifications: {
-      "Type": "Over-ear",
-      "Connectivity": "Bluetooth 5.2",
-      "Battery": "30 hours",
-      "Weight": "250 grams"
-    }
-  },
-  {
-    id: '4',
-    name: 'Samsung Galaxy S24 Ultra',
-    category: 'smartphones',
-    price: 139999,
-    image: PlaceHolderImages.find(img => img.id === 'prod-samsung')?.imageUrl || '',
-    description: 'The Galaxy S24 Ultra features a stunning titanium frame and epic AI capabilities.',
-    isFeatured: false,
-    specifications: {
-      "Processor": "Snapdragon 8 Gen 3",
-      "Display": "6.8-inch Dynamic AMOLED 2X",
-      "Camera": "200MP Main Camera",
-      "S-Pen": "Included"
-    }
-  },
-  {
-    id: '5',
-    name: 'Keychron K2 V2',
-    category: 'accessories',
-    price: 8999,
-    image: PlaceHolderImages.find(img => img.id === 'prod-keyboard')?.imageUrl || '',
-    description: 'Keychron K2 is a wireless mechanical keyboard with all keys and function.',
-    isFeatured: false,
-    specifications: {
-      "Layout": "75%",
-      "Backlight": "RGB",
-      "Connectivity": "Bluetooth/Wired",
-      "Switches": "Gateron G Pro"
-    }
-  },
-  {
-    id: '6',
-    name: 'Dell XPS 13 (2024)',
-    category: 'laptops',
-    price: 145999,
-    image: PlaceHolderImages.find(img => img.id === 'prod-dell')?.imageUrl || '',
-    description: 'The XPS 13 is our thinnest and lightest 13-inch laptop, built for a life on the go.',
-    isFeatured: true,
-    specifications: {
-      "Processor": "Intel Core Ultra 7",
-      "Memory": "16GB RAM",
-      "Display": "13.4-inch FHD+",
-      "OS": "Windows 11 Home"
-    }
+    id: 'w1',
+    name: 'Smart Watch Series 8 Ultra - 2024 Model',
+    category: 'watches',
+    price: 1250,
+    originalPrice: 3500,
+    image: PlaceHolderImages.find(img => img.id === 'prod-watch')?.imageUrl || '',
+    description: 'Advanced health tracking and notification system.',
+    rating: 4.2,
+    reviewsCount: 85,
+    specifications: { "Display": "OLED", "Connectivity": "Bluetooth" }
   }
 ];
