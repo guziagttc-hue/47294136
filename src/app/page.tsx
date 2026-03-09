@@ -9,12 +9,10 @@ import { PlaceHolderImages } from '@/lib/placeholder-images';
 import Image from 'next/image';
 import Link from 'next/link';
 import { 
-  ArrowRight, 
   Smartphone, 
   Laptop, 
   Headphones, 
   Keyboard, 
-  Gamepad, 
   Zap, 
   Home as HomeIcon, 
   Shirt, 
@@ -22,7 +20,10 @@ import {
   Watch, 
   ShoppingBasket, 
   Gamepad2,
-  Trophy
+  Utensils,
+  Dog,
+  HeartPulse,
+  Dribbble
 } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { 
@@ -50,6 +51,10 @@ export default function Home() {
       case 'Watch': return <Watch className="w-8 h-8" />;
       case 'ShoppingBasket': return <ShoppingBasket className="w-8 h-8" />;
       case 'Gamepad2': return <Gamepad2 className="w-8 h-8" />;
+      case 'Utensils': return <Utensils className="w-8 h-8" />;
+      case 'Dog': return <Dog className="w-8 h-8" />;
+      case 'HeartPulse': return <HeartPulse className="w-8 h-8" />;
+      case 'Dribbble': return <Dribbble className="w-8 h-8" />;
       default: return <Zap className="w-8 h-8" />;
     }
   };
@@ -61,40 +66,59 @@ export default function Home() {
       <main className="flex-grow pb-20">
         {/* Hero Banner */}
         <section className="container mx-auto px-4 mt-4">
-          <Carousel className="w-full rounded-sm overflow-hidden" opts={{ loop: true }}>
-            <CarouselContent>
-              {heroImages.map((hero, idx) => (
-                <CarouselItem key={idx}>
-                  <div className="relative aspect-[3/1] w-full">
-                    <Image 
-                      src={hero.imageUrl} 
-                      alt={hero.description}
-                      fill
-                      className="object-cover"
-                      priority={idx === 0}
-                    />
-                  </div>
-                </CarouselItem>
-              ))}
-            </CarouselContent>
-            <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-            <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
-          </Carousel>
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-4">
+            {/* Sidebar Categories (Desktop) */}
+            <div className="hidden lg:block bg-white rounded-sm p-2 shadow-sm border border-gray-100 h-full overflow-y-auto">
+              <ul className="space-y-1">
+                {categories.slice(0, 12).map((cat) => (
+                  <li key={cat.id}>
+                    <Link href={`/category/${cat.id}`} className="flex items-center gap-2 px-3 py-1.5 text-[13px] hover:text-primary transition-colors text-gray-700">
+                      <span>{cat.name}</span>
+                    </Link>
+                  </li>
+                ))}
+              </ul>
+            </div>
+            
+            {/* Main Carousel */}
+            <div className="lg:col-span-3">
+              <Carousel className="w-full rounded-sm overflow-hidden group" opts={{ loop: true }}>
+                <CarouselContent>
+                  {heroImages.map((hero, idx) => (
+                    <CarouselItem key={idx}>
+                      <div className="relative aspect-[3/1] w-full">
+                        <Image 
+                          src={hero.imageUrl} 
+                          alt={hero.description}
+                          fill
+                          className="object-cover"
+                          priority={idx === 0}
+                          data-ai-hint="shopping banner"
+                        />
+                      </div>
+                    </CarouselItem>
+                  ))}
+                </CarouselContent>
+                <CarouselPrevious className="left-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+                <CarouselNext className="right-4 opacity-0 group-hover:opacity-100 transition-opacity" />
+              </Carousel>
+            </div>
+          </div>
         </section>
 
         {/* Flash Sale */}
         <section className="container mx-auto px-4 mt-8">
-          <div className="bg-white p-4 rounded-sm">
+          <div className="bg-white p-4 rounded-sm shadow-sm">
             <div className="flex items-center justify-between border-b pb-4 mb-4">
               <div className="flex items-center gap-8">
                 <h2 className="text-xl font-bold text-primary">Flash Sale</h2>
                 <div className="flex items-center gap-2">
-                  <span className="text-sm font-bold">On Sale Now</span>
+                  <span className="text-sm font-bold text-gray-600">On Sale Now</span>
                   <div className="flex gap-1">
                     <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-sm font-bold">08</span>
-                    <span>:</span>
+                    <span className="text-primary font-bold">:</span>
                     <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-sm font-bold">45</span>
-                    <span>:</span>
+                    <span className="text-primary font-bold">:</span>
                     <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-sm font-bold">12</span>
                   </div>
                 </div>
@@ -114,17 +138,17 @@ export default function Home() {
         {/* Categories Grid */}
         <section className="container mx-auto px-4 mt-8">
           <h2 className="text-xl font-bold mb-4 text-gray-800">Categories</h2>
-          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-8 bg-white border rounded-sm overflow-hidden">
+          <div className="grid grid-cols-4 md:grid-cols-6 lg:grid-cols-10 bg-white border border-gray-100 rounded-sm overflow-hidden shadow-sm">
             {categories.map((cat) => (
               <Link 
                 key={cat.id} 
                 href={`/category/${cat.id}`} 
-                className="flex flex-col items-center gap-2 p-6 border-r border-b hover:shadow-inner transition-all hover:text-primary group"
+                className="flex flex-col items-center gap-2 p-4 border-r border-b hover:shadow-inner transition-all hover:text-primary group"
               >
-                <div className="text-gray-600 transition-colors group-hover:text-primary">
+                <div className="text-gray-400 transition-colors group-hover:text-primary">
                   {getCategoryIcon(cat.icon)}
                 </div>
-                <span className="text-xs text-center font-medium line-clamp-2">{cat.name}</span>
+                <span className="text-[11px] text-center font-medium line-clamp-2 leading-tight">{cat.name}</span>
               </Link>
             ))}
           </div>

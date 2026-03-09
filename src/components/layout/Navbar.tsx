@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, Search, Menu, X, Smartphone } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, Smartphone, Globe } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
@@ -23,6 +23,9 @@ export default function Navbar() {
           <Link href="#" className="hover:text-primary">HELP & SUPPORT</Link>
           <Link href="#" className="hover:text-primary">LOGIN</Link>
           <Link href="#" className="hover:text-primary">SIGN UP</Link>
+          <Link href="#" className="hover:text-primary flex items-center gap-1">
+            <Globe className="w-3 h-3" /> CHANGE LANGUAGE
+          </Link>
         </div>
       </div>
 

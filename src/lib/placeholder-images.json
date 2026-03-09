@@ -2,51 +2,99 @@
   "placeholderImages": [
     {
       "id": "hero-1",
-      "description": "Daraz Flash Sale Banner",
-      "imageUrl": "https://picsum.photos/seed/daraz1/1200/400",
+      "description": "TechShop BD Mega Sale",
+      "imageUrl": "https://picsum.photos/seed/tech1/1200/400",
       "imageHint": "shopping banner"
     },
     {
       "id": "hero-2",
       "description": "Free Delivery Campaign",
-      "imageUrl": "https://picsum.photos/seed/daraz2/1200/400",
+      "imageUrl": "https://picsum.photos/seed/tech2/1200/400",
       "imageHint": "delivery van"
     },
     {
+      "id": "prod-loafer",
+      "description": "Loafer for Men",
+      "imageUrl": "https://picsum.photos/seed/loafer/400/400",
+      "imageHint": "men shoes"
+    },
+    {
+      "id": "prod-surf",
+      "description": "Surf Excel Liquid",
+      "imageUrl": "https://picsum.photos/seed/surf/400/400",
+      "imageHint": "detergent liquid"
+    },
+    {
+      "id": "prod-laccha",
+      "description": "Buniyadi Laccha",
+      "imageUrl": "https://picsum.photos/seed/laccha/400/400",
+      "imageHint": "food package"
+    },
+    {
+      "id": "prod-syrup",
+      "description": "Sinjin Syrup Combo",
+      "imageUrl": "https://picsum.photos/seed/syrup/400/400",
+      "imageHint": "medicine bottle"
+    },
+    {
+      "id": "prod-shampoo",
+      "description": "Sunsilk Shampoo",
+      "imageUrl": "https://picsum.photos/seed/shampoo/400/400",
+      "imageHint": "shampoo bottle"
+    },
+    {
+      "id": "prod-handwash",
+      "description": "Lifebuoy Handwash",
+      "imageUrl": "https://picsum.photos/seed/handwash/400/400",
+      "imageHint": "handwash refill"
+    },
+    {
       "id": "prod-fan",
-      "description": "Portable Mini Rechargeable Fan",
+      "description": "Portable Mini Fan",
       "imageUrl": "https://picsum.photos/seed/fan/400/400",
-      "imageHint": "portable fan"
+      "imageHint": "mini fan"
     },
     {
       "id": "prod-gown",
-      "description": "Stylish Gown for Women",
+      "description": "New Designed Gown",
       "imageUrl": "https://picsum.photos/seed/gown/400/400",
-      "imageHint": "women dress"
+      "imageHint": "women gown"
     },
     {
       "id": "prod-makeup",
-      "description": "Eyeshadow Palette 18 Colors",
+      "description": "18 Colors Eyeshadow",
       "imageUrl": "https://picsum.photos/seed/makeup/400/400",
-      "imageHint": "makeup palette"
+      "imageHint": "eyeshadow palette"
     },
     {
-      "id": "prod-iphone",
-      "description": "iPhone 15 Pro Max",
-      "imageUrl": "https://picsum.photos/seed/iphone/400/400",
-      "imageHint": "iphone"
+      "id": "prod-stak",
+      "description": "Bamboo Stakes",
+      "imageUrl": "https://picsum.photos/seed/garden/400/400",
+      "imageHint": "garden bamboo"
     },
     {
-      "id": "prod-charger",
-      "description": "33W Fast Charger Type-C",
-      "imageUrl": "https://picsum.photos/seed/charger/400/400",
-      "imageHint": "usb charger"
+      "id": "prod-teeth",
+      "description": "Teeth Whitening Essence",
+      "imageUrl": "https://picsum.photos/seed/teeth/400/400",
+      "imageHint": "whitening serum"
     },
     {
-      "id": "prod-watch",
-      "description": "Smart Watch Series 8",
-      "imageUrl": "https://picsum.photos/seed/watch/400/400",
-      "imageHint": "smartwatch"
+      "id": "prod-jersey",
+      "description": "Japan Anime Jersey",
+      "imageUrl": "https://picsum.photos/seed/jersey/400/400",
+      "imageHint": "football jersey"
+    },
+    {
+      "id": "prod-sticker",
+      "description": "Apple Logo Sticker",
+      "imageUrl": "https://picsum.photos/seed/apple/400/400",
+      "imageHint": "logo sticker"
+    },
+    {
+      "id": "prod-pethouse",
+      "description": "Pet Home/House",
+      "imageUrl": "https://picsum.photos/seed/pethouse/400/400",
+      "imageHint": "dog house"
     }
   ]
 }
