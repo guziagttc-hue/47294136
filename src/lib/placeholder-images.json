@@ -1,3 +1,52 @@
 {
-  "placeholderImages": []
+  "placeholderImages": [
+    {
+      "id": "hero-1",
+      "description": "Latest smartphone promotion banner",
+      "imageUrl": "https://picsum.photos/seed/tech1/1200/600",
+      "imageHint": "smartphone technology"
+    },
+    {
+      "id": "hero-2",
+      "description": "Premium laptop deals banner",
+      "imageUrl": "https://picsum.photos/seed/tech2/1200/600",
+      "imageHint": "laptop work"
+    },
+    {
+      "id": "prod-iphone",
+      "description": "iPhone 15 Pro Max",
+      "imageUrl": "https://picsum.photos/seed/iphone/600/600",
+      "imageHint": "iphone smartphone"
+    },
+    {
+      "id": "prod-macbook",
+      "description": "MacBook Air M3",
+      "imageUrl": "https://picsum.photos/seed/macbook/600/600",
+      "imageHint": "macbook laptop"
+    },
+    {
+      "id": "prod-sony",
+      "description": "Sony WH-1000XM5 Headphones",
+      "imageUrl": "https://picsum.photos/seed/sony/600/600",
+      "imageHint": "headphones audio"
+    },
+    {
+      "id": "prod-samsung",
+      "description": "Samsung Galaxy S24 Ultra",
+      "imageUrl": "https://picsum.photos/seed/samsung/600/600",
+      "imageHint": "samsung smartphone"
+    },
+    {
+      "id": "prod-keyboard",
+      "description": "Keychron K2 Mechanical Keyboard",
+      "imageUrl": "https://picsum.photos/seed/keyboard/600/600",
+      "imageHint": "keyboard mechanical"
+    },
+    {
+      "id": "prod-dell",
+      "description": "Dell XPS 13 Laptop",
+      "imageUrl": "https://picsum.photos/seed/dell/600/600",
+      "imageHint": "laptop dell"
+    }
+  ]
 }
