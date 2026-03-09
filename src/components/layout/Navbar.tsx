@@ -16,16 +16,16 @@ export default function Navbar() {
   return (
     <header className="sticky top-0 z-50 w-full">
       {/* Top bar */}
-      <div className="bg-[#f5f5f5] text-[12px] py-1 hidden lg:block">
-        <div className="container mx-auto px-4 flex justify-end gap-6 text-gray-600">
-          <Link href="#" className="hover:text-primary">SAVE MORE ON APP</Link>
-          <Link href="#" className="hover:text-primary">BECOME A SELLER</Link>
-          <Link href="#" className="hover:text-primary">HELP & SUPPORT</Link>
-          <Link href="#" className="hover:text-primary">LOGIN</Link>
-          <Link href="#" className="hover:text-primary">SIGN UP</Link>
-          <Link href="#" className="hover:text-primary flex items-center gap-1">
-            <Globe className="w-3 h-3" /> CHANGE LANGUAGE
-          </Link>
+      <div className="bg-[#f5f5f5] text-[12px] py-1.5 hidden lg:block border-b">
+        <div className="container mx-auto px-4 flex justify-end items-center gap-6 text-[#757575] font-medium">
+          <Link href="#" className="hover:text-primary transition-colors">Save More on App</Link>
+          <Link href="#" className="hover:text-primary transition-colors">Become a Seller</Link>
+          <Link href="#" className="hover:text-primary transition-colors">Help & Support</Link>
+          <Link href="#" className="hover:text-primary transition-colors uppercase font-bold text-gray-800">Login</Link>
+          <Link href="#" className="hover:text-primary transition-colors uppercase font-bold text-gray-800 border-l pl-6">Sign Up</Link>
+          <button className="hover:text-primary transition-colors flex items-center gap-1 border-l pl-6">
+            ভাষা
+          </button>
         </div>
       </div>
 
