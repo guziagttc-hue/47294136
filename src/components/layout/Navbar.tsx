@@ -2,7 +2,7 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, Search, Menu, X, Smartphone, Globe } from 'lucide-react';
+import { ShoppingCart, Search, Menu, X, Smartphone } from 'lucide-react';
 import { useState } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
@@ -33,9 +33,10 @@ export default function Navbar() {
       <nav className="bg-white border-b shadow-sm py-4">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-8">
-            {/* Logo */}
-            <Link href="/" className="shrink-0">
-              <span className="text-3xl font-black text-primary tracking-tighter">TechShop BD</span>
+            {/* Logo - Points to Admin Panel as requested */}
+            <Link href="/admin" className="shrink-0 group">
+              <span className="text-3xl font-black text-primary tracking-tighter group-hover:opacity-80 transition-opacity">TechShop BD</span>
+              <span className="block text-[10px] text-muted-foreground font-bold uppercase tracking-tighter -mt-1 opacity-0 group-hover:opacity-100 transition-opacity">Admin Panel</span>
             </Link>
 
             {/* Search Bar */}
@@ -92,6 +93,7 @@ export default function Navbar() {
             </div>
             <div className="flex flex-col gap-4 font-medium text-gray-600">
               <Link href="/" onClick={() => setIsMenuOpen(false)}>Home</Link>
+              <Link href="/admin" onClick={() => setIsMenuOpen(false)}>Admin Panel</Link>
               <Link href="/about" onClick={() => setIsMenuOpen(false)}>About Us</Link>
               <Link href="/contact" onClick={() => setIsMenuOpen(false)}>Contact</Link>
             </div>
