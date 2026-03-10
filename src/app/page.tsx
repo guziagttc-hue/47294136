@@ -77,8 +77,10 @@ export default function Home() {
                       href={`/category/${cat.id}`} 
                       className="flex items-center justify-between px-4 py-2 text-[13px] text-[#424242] hover:bg-[#f5f5f5] hover:text-primary transition-all"
                     >
-                      <div className="flex items-center gap-2">
-                        {getCategoryIcon(cat.icon)}
+                      <div className="flex items-center gap-3">
+                        <span className="text-gray-400 group-hover:text-primary transition-colors">
+                          {getCategoryIcon(cat.icon)}
+                        </span>
                         <span>{cat.name}</span>
                       </div>
                       <ChevronRight className="w-3 h-3 text-gray-300 group-hover:text-primary" />
@@ -117,12 +119,12 @@ export default function Home() {
         {/* Mobile Quick Links / Category Icons */}
         <section className="lg:hidden container mx-auto px-4 mt-6">
           <div className="bg-white rounded-xl p-4 shadow-sm grid grid-cols-5 gap-y-6">
-            {categories.slice(0, 10).map((cat) => (
+            {categories.map((cat) => (
               <Link key={cat.id} href={`/category/${cat.id}`} className="flex flex-col items-center gap-2">
-                <div className="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
+                <div className="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary border border-primary/10 hover:bg-primary hover:text-white transition-all">
                   {getCategoryIcon(cat.icon)}
                 </div>
-                <span className="text-[10px] font-bold text-center text-gray-600 line-clamp-1">{cat.name.split(' ')[0]}</span>
+                <span className="text-[10px] font-bold text-center text-gray-600 line-clamp-1">{cat.shortName}</span>
               </Link>
             ))}
           </div>

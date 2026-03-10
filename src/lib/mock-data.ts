@@ -18,20 +18,19 @@ export type Product = {
 };
 
 export const categories = [
-  { id: 'fashion', name: "Women's Fashion", icon: 'Shirt' },
-  { id: 'electronics', name: 'Electronics', icon: 'Smartphone' },
-  { id: 'home', name: 'Home & Living', icon: 'Home' },
-  { id: 'beauty', name: 'Beauty', icon: 'Sparkles' },
-  { id: 'watches', name: 'Watches & Accessories', icon: 'Watch' },
-  { id: 'groceries', name: 'Groceries', icon: 'ShoppingBasket' },
-  { id: 'sports', name: 'Sports & Outdoors', icon: 'Dribbble' },
-  { id: 'kitchen', name: 'Kitchen Fittings', icon: 'Utensils' },
-  { id: 'pets', name: 'Pet Supplies', icon: 'Dog' },
-  { id: 'health', name: 'Health & Beauty', icon: 'HeartPulse' }
+  { id: 'fashion', name: "Women's Fashion", shortName: "Women's", icon: 'Shirt' },
+  { id: 'electronics', name: 'Electronics', shortName: 'Electronics', icon: 'Smartphone' },
+  { id: 'home', name: 'Home & Living', shortName: 'Home', icon: 'Home' },
+  { id: 'beauty', name: 'Beauty', shortName: 'Beauty', icon: 'Sparkles' },
+  { id: 'watches', name: 'Watches & Accessories', shortName: 'Watches', icon: 'Watch' },
+  { id: 'groceries', name: 'Groceries', shortName: 'Groceries', icon: 'ShoppingBasket' },
+  { id: 'sports', name: 'Sports & Outdoors', shortName: 'Sports', icon: 'Dribbble' },
+  { id: 'kitchen', name: 'Kitchen Fittings', shortName: 'Kitchen', icon: 'Utensils' },
+  { id: 'pets', name: 'Pet Supplies', shortName: 'Pet', icon: 'Dog' },
+  { id: 'health', name: 'Health & Beauty', shortName: 'Health', icon: 'HeartPulse' }
 ];
 
 export const products: Product[] = [
-  // New DJI Product requested
   {
     id: 'dji-neo-bumper',
     name: '【Innovative】 Gimbal Bumper for DJI Neo Guard Bar 3D Printing ABS Anti-Collision Camera Lens Protector',
@@ -52,7 +51,6 @@ export const products: Product[] = [
       "Compatible Model": "DJI Neo"
     }
   },
-  // Flash Sale Items
   {
     id: 'f1',
     name: 'Loafer for Men Rubber Shoes V Waterproofed shoe',
@@ -131,7 +129,6 @@ export const products: Product[] = [
     reviewsCount: 3400,
     specifications: { "Volume": "170ml" }
   },
-  // Just For You Items
   {
     id: 'j1',
     name: 'Portable Mini Rechargeable Travel Fan 3 Gear Speed',
