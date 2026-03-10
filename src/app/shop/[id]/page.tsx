@@ -2,7 +2,7 @@
 "use client";
 
 import React from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Navbar from '@/components/layout/Navbar';
 import Footer from '@/components/layout/Footer';
 import ProductCard from '@/components/ProductCard';
@@ -12,13 +12,30 @@ import { Badge } from '@/components/ui/badge';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { Store, MapPin, Star, MessageSquare, Share2, Info } from 'lucide-react';
 import Link from 'next/link';
+import { useToast } from '@/hooks/use-toast';
 
 export default function PublicShopPage() {
   const { id } = useParams();
+  const router = useRouter();
+  const { toast } = useToast();
   // In a real app, we would fetch seller data by ID. 
   // For this prototype, we'll simulate it using the ID as the seller name/email.
   const decodedId = decodeURIComponent(id as string);
   const sellerProducts = products.filter(p => p.sellerId === 'admin' || p.sellerId === decodedId);
+
+  const handleChatNow = () => {
+    const user = localStorage.getItem('techshop_user');
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to chat with the seller.",
+        variant: "destructive"
+      });
+      router.push('/auth/login');
+      return;
+    }
+    router.push(`/chat?sellerId=${decodedId}`);
+  };
 
   return (
     <div className="flex flex-col min-h-screen bg-[#eff0f5]">
@@ -73,7 +90,7 @@ export default function PublicShopPage() {
               </div>
 
               <div className="flex gap-3">
-                <Button className="bg-primary text-white font-bold rounded-full px-8 h-12 hover:brightness-110 gap-2">
+                <Button onClick={handleChatNow} className="bg-primary text-white font-bold rounded-full px-8 h-12 hover:brightness-110 gap-2">
                   <MessageSquare className="w-5 h-5" /> Chat Now
                 </Button>
                 <Button variant="outline" size="icon" className="rounded-full w-12 h-12 border-gray-200">

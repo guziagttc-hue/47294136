@@ -2,7 +2,7 @@
 "use client";
 
 import React, { useState } from 'react';
-import { useParams } from 'next/navigation';
+import { useParams, useRouter } from 'next/navigation';
 import Image from 'next/image';
 import Link from 'next/link';
 import { products } from '@/lib/mock-data';
@@ -30,6 +30,7 @@ import {
 
 export default function ProductDetailPage() {
   const { id } = useParams();
+  const router = useRouter();
   const product = products.find(p => p.id === id);
   const [quantity, setQuantity] = useState(1);
   const { addToCart } = useCart();
@@ -66,6 +67,20 @@ export default function ProductDetailPage() {
       title: "Added to cart",
       description: `${quantity} x ${product.name} added to your cart.`
     });
+  };
+
+  const handleChatNow = () => {
+    const user = localStorage.getItem('techshop_user');
+    if (!user) {
+      toast({
+        title: "Login Required",
+        description: "Please login to chat with the seller.",
+        variant: "destructive"
+      });
+      router.push('/auth/login');
+      return;
+    }
+    router.push(`/chat?sellerId=${product.sellerId}`);
   };
 
   const relatedProducts = products
@@ -278,7 +293,7 @@ export default function ProductDetailPage() {
                       </div>
                     </div>
                   </div>
-                  <button className="text-blue-500 text-[11px] font-bold uppercase hover:underline">Chat Now</button>
+                  <button onClick={handleChatNow} className="text-blue-500 text-[11px] font-bold uppercase hover:underline">Chat Now</button>
                 </div>
                 <div className="grid grid-cols-3 gap-2 border-t pt-4 text-center">
                   <div>

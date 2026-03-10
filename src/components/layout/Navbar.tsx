@@ -13,7 +13,8 @@ import {
   LogOut, 
   Settings as SettingsIcon,
   Home as HomeIcon,
-  Store
+  Store,
+  MessageSquare
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
@@ -119,6 +120,12 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-4 lg:gap-6">
+              {user && (
+                <Link href="/chat" className="relative group hidden sm:block">
+                  <MessageSquare className="w-6 h-6 lg:w-7 lg:h-7 text-gray-700 group-hover:text-primary transition-colors" />
+                </Link>
+              )}
+
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -142,6 +149,12 @@ export default function Navbar() {
                       <DropdownMenuItem className="cursor-pointer">
                         <User className="mr-2 h-4 w-4" />
                         <span>Profile</span>
+                      </DropdownMenuItem>
+                    </Link>
+                    <Link href="/chat">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <MessageSquare className="mr-2 h-4 w-4" />
+                        <span>Chats</span>
                       </DropdownMenuItem>
                     </Link>
                     {user.role === 'SELLER' && (
@@ -227,6 +240,11 @@ export default function Navbar() {
                 <Link href={user ? "/profile" : "/auth/login"} className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                   <User className="w-5 h-5 text-primary" /> {user ? "My Profile" : "Login / Signup"}
                 </Link>
+                {user && (
+                  <Link href="/chat" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
+                    <MessageSquare className="w-5 h-5 text-primary" /> My Chats
+                  </Link>
+                )}
                 {user?.role === 'SELLER' && (
                   <Link href="/seller/dashboard" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                     <Store className="w-5 h-5 text-primary" /> Seller Center
