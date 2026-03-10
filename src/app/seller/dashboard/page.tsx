@@ -22,7 +22,9 @@ import {
   MapPin,
   Phone,
   Mail,
-  Save
+  Save,
+  User,
+  ShieldCheck
 } from 'lucide-react';
 import { 
   Card, 
@@ -64,6 +66,7 @@ import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
 import { ScrollArea } from '@/components/ui/scroll-area';
 import { useRouter } from 'next/navigation';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 
 export default function SellerDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
@@ -87,7 +90,6 @@ export default function SellerDashboard() {
   }, [router]);
 
   // Filter products for this specific seller
-  // In a real app, this would be a Firestore query based on user.email
   const sellerProducts = products.filter(p => p.sellerId === 'admin' || p.sellerId === user?.email);
 
   const handleAddProduct = (e: React.FormEvent) => {
@@ -106,13 +108,14 @@ export default function SellerDashboard() {
       ...user, 
       shopName: target.shopName.value,
       address: target.shopAddress.value,
-      phone: target.shopPhone.value
+      phone: target.shopPhone.value,
+      name: target.sellerName.value
     };
     setUser(updatedUser);
     localStorage.setItem('techshop_user', JSON.stringify(updatedUser));
     toast({
-      title: "Store Profile Updated",
-      description: "Your business details have been saved to your account."
+      title: "Seller Identity Updated",
+      description: "Your business and personal details have been saved."
     });
   };
 
@@ -160,7 +163,7 @@ export default function SellerDashboard() {
             className={`w-full justify-start gap-3 rounded-xl ${activeTab === "settings" ? "bg-primary text-white" : "hover:bg-primary/5 text-gray-600"}`}
             onClick={() => setActiveTab("settings")}
           >
-            <Store className="w-5 h-5" /> Store Settings
+            <Store className="w-5 h-5" /> My Profile & Shop
           </Button>
         </nav>
         <div className="p-4 border-t">
@@ -257,8 +260,12 @@ export default function SellerDashboard() {
                 </ScrollArea>
               </DialogContent>
             </Dialog>
-            <div className="w-10 h-10 rounded-full bg-primary text-white font-bold flex items-center justify-center border-2 border-primary/20 text-sm shadow-inner">
-              {user.name?.[0].toUpperCase() || 'S'}
+            <div className="flex items-center gap-3 bg-muted/50 px-3 py-1.5 rounded-full border">
+              <span className="text-xs font-bold text-gray-600 hidden sm:block">{user.name}</span>
+              <Avatar className="w-8 h-8 border-2 border-primary/20">
+                <AvatarImage src={`https://picsum.photos/seed/${user.email}/100/100`} />
+                <AvatarFallback>{user.name?.[0].toUpperCase()}</AvatarFallback>
+              </Avatar>
             </div>
           </div>
         </header>
@@ -267,6 +274,59 @@ export default function SellerDashboard() {
           
           {activeTab === "dashboard" && (
             <>
+              {/* Seller Welcome Card */}
+              <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+                <Card className="lg:col-span-3 border-none shadow-sm bg-primary text-white overflow-hidden relative">
+                  <div className="absolute top-0 right-0 p-8 opacity-10">
+                    <Store className="w-40 h-40" />
+                  </div>
+                  <CardHeader>
+                    <div className="flex items-center gap-4">
+                      <div className="w-16 h-16 rounded-2xl bg-white/20 flex items-center justify-center backdrop-blur-md">
+                        <Store className="w-8 h-8 text-white" />
+                      </div>
+                      <div>
+                        <CardTitle className="text-2xl font-black">Welcome back, {user.name}!</CardTitle>
+                        <CardDescription className="text-white/80 font-medium">
+                          Manage your store <span className="underline">{user.shopName || 'Marketplace Shop'}</span> and track your growth.
+                        </CardDescription>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent className="grid grid-cols-3 gap-4 mt-2">
+                    <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
+                      <p className="text-[10px] uppercase font-bold opacity-70">Store Level</p>
+                      <p className="text-lg font-bold">Standard Seller</p>
+                    </div>
+                    <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
+                      <p className="text-[10px] uppercase font-bold opacity-70">Verification</p>
+                      <p className="text-lg font-bold flex items-center gap-1"><ShieldCheck className="w-4 h-4" /> Verified</p>
+                    </div>
+                    <div className="p-3 bg-white/10 rounded-xl backdrop-blur-sm border border-white/10">
+                      <p className="text-[10px] uppercase font-bold opacity-70">Join Date</p>
+                      <p className="text-lg font-bold">March 2024</p>
+                    </div>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-sm bg-white p-6 flex flex-col items-center justify-center text-center space-y-4">
+                  <div className="w-20 h-20 rounded-full border-4 border-primary/20 p-1">
+                    <Avatar className="w-full h-full">
+                      <AvatarImage src={`https://picsum.photos/seed/${user.email}/200/200`} />
+                      <AvatarFallback>{user.name?.[0].toUpperCase()}</AvatarFallback>
+                    </Avatar>
+                  </div>
+                  <div>
+                    <h3 className="font-bold text-gray-800">{user.name}</h3>
+                    <p className="text-xs text-muted-foreground">{user.email}</p>
+                  </div>
+                  <Button variant="outline" size="sm" className="w-full rounded-full" onClick={() => setActiveTab("settings")}>
+                    Edit Identity
+                  </Button>
+                </Card>
+              </div>
+
+              {/* Stats Grid */}
               <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                 <Card className="border-none shadow-sm bg-white overflow-hidden group">
                   <div className="h-1 bg-primary w-0 group-hover:w-full transition-all duration-300" />
@@ -275,51 +335,90 @@ export default function SellerDashboard() {
                     <div className="p-2 bg-primary/10 rounded-lg"><DollarSign className="w-4 h-4 text-primary" /></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-black text-gray-800">৳0</div>
-                    <p className="text-xs text-muted-foreground mt-2">Start your sales journey today</p>
+                    <div className="text-3xl font-black text-gray-800">৳ 0</div>
+                    <p className="text-xs text-muted-foreground mt-2">Total earnings from your shop</p>
                   </CardContent>
                 </Card>
                 <Card className="border-none shadow-sm bg-white overflow-hidden group">
                   <div className="h-1 bg-blue-500 w-0 group-hover:w-full transition-all duration-300" />
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">My Active Inventory</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">My Posted Items</CardTitle>
                     <div className="p-2 bg-blue-50 rounded-lg"><Package className="w-4 h-4 text-blue-600" /></div>
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-black text-gray-800">{sellerProducts.length}</div>
-                    <p className="text-xs text-muted-foreground mt-2">Products posted by you</p>
+                    <p className="text-xs text-muted-foreground mt-2">Active listings in catalog</p>
                   </CardContent>
                 </Card>
                 <Card className="border-none shadow-sm bg-white overflow-hidden group">
                   <div className="h-1 bg-green-500 w-0 group-hover:w-full transition-all duration-300" />
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">Store Status</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">Store Rating</CardTitle>
                     <div className="p-2 bg-green-50 rounded-lg"><TrendingUp className="w-4 h-4 text-green-600" /></div>
                   </CardHeader>
                   <CardContent>
-                    <div className="text-3xl font-black text-green-600">Active</div>
-                    <p className="text-xs text-muted-foreground mt-2">Visible to all buyers</p>
+                    <div className="text-3xl font-black text-green-600">N/A</div>
+                    <p className="text-xs text-muted-foreground mt-2">Based on customer feedback</p>
                   </CardContent>
                 </Card>
               </div>
 
-              <Card className="border-none shadow-sm">
-                <CardHeader>
-                  <CardTitle className="text-lg">Recent Shop Insights</CardTitle>
-                  <CardDescription>Tips to grow your business on TechShop BD</CardDescription>
-                </CardHeader>
-                <CardContent className="space-y-4">
-                  <div className="flex gap-4 p-4 rounded-xl bg-gray-50 hover:bg-white border-2 border-transparent hover:border-primary/20 transition-all cursor-pointer">
-                    <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
-                      <Info className="w-6 h-6" />
+              {/* Identity & Address Summary */}
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+                <Card className="border-none shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2"><MapPin className="w-5 h-5 text-primary" /> Business Location</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="p-4 rounded-xl bg-muted/30 border border-dashed border-primary/20">
+                      <p className="text-sm font-bold text-gray-700">Pickup & Warehouse Address:</p>
+                      <p className="text-sm text-gray-500 mt-1">{user.address || 'Address not set. Please update in settings.'}</p>
                     </div>
-                    <div>
-                      <h4 className="font-bold text-gray-800">New Campaign: Mega Sale 2025</h4>
-                      <p className="text-sm text-gray-500 mt-1">Register your products now to get up to 2x more visibility during the upcoming sale event.</p>
+                    <div className="flex gap-4">
+                      <div className="flex-1 p-3 rounded-xl border bg-white flex items-center gap-3">
+                        <Phone className="w-4 h-4 text-primary" />
+                        <div>
+                          <p className="text-[10px] uppercase text-gray-400 font-bold">Phone</p>
+                          <p className="text-xs font-bold">{user.phone || 'N/A'}</p>
+                        </div>
+                      </div>
+                      <div className="flex-1 p-3 rounded-xl border bg-white flex items-center gap-3">
+                        <Mail className="w-4 h-4 text-primary" />
+                        <div>
+                          <p className="text-[10px] uppercase text-gray-400 font-bold">Business Email</p>
+                          <p className="text-xs font-bold">{user.email}</p>
+                        </div>
+                      </div>
                     </div>
-                  </div>
-                </CardContent>
-              </Card>
+                  </CardContent>
+                </Card>
+
+                <Card className="border-none shadow-sm">
+                  <CardHeader>
+                    <CardTitle className="text-lg flex items-center gap-2"><Info className="w-5 h-5 text-primary" /> Quick Tips</CardTitle>
+                  </CardHeader>
+                  <CardContent className="space-y-4">
+                    <div className="flex gap-4 p-4 rounded-xl bg-blue-50 border border-blue-100">
+                      <div className="w-10 h-10 rounded-lg bg-blue-100 flex items-center justify-center text-blue-600 shrink-0">
+                        <Plus className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-blue-800">Post More Products</h4>
+                        <p className="text-xs text-blue-600 mt-1">Sellers with more than 5 products get 30% more visibility.</p>
+                      </div>
+                    </div>
+                    <div className="flex gap-4 p-4 rounded-xl bg-green-50 border border-green-100">
+                      <div className="w-10 h-10 rounded-lg bg-green-100 flex items-center justify-center text-green-600 shrink-0">
+                        <TrendingUp className="w-5 h-5" />
+                      </div>
+                      <div>
+                        <h4 className="text-sm font-bold text-green-800">Improve Store Name</h4>
+                        <p className="text-xs text-green-600 mt-1">A catchy shop name helps buyers remember your brand.</p>
+                      </div>
+                    </div>
+                  </CardContent>
+                </Card>
+              </div>
             </>
           )}
 
@@ -327,8 +426,8 @@ export default function SellerDashboard() {
             <Card className="border-none shadow-sm">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle>My Posted Products</CardTitle>
-                  <CardDescription>Manage your personal listings and stock levels.</CardDescription>
+                  <CardTitle>My Personal Catalog</CardTitle>
+                  <CardDescription>Manage your {sellerProducts.length} items listed under your ID.</CardDescription>
                 </div>
                 <div className="relative">
                   <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
@@ -349,9 +448,16 @@ export default function SellerDashboard() {
                     {sellerProducts.length > 0 ? (
                       sellerProducts.map((p) => (
                         <TableRow key={p.id} className="hover:bg-primary/5 transition-colors">
-                          <TableCell className="font-medium text-gray-800">{p.name}</TableCell>
+                          <TableCell className="font-medium text-gray-800">
+                            <div className="flex items-center gap-3">
+                              <div className="w-10 h-10 rounded border overflow-hidden shrink-0">
+                                <img src={p.image} alt="" className="w-full h-full object-cover" />
+                              </div>
+                              <span className="line-clamp-1">{p.name}</span>
+                            </div>
+                          </TableCell>
                           <TableCell className="capitalize text-gray-500">{p.category}</TableCell>
-                          <TableCell className="font-bold">৳{p.price.toLocaleString()}</TableCell>
+                          <TableCell className="font-bold">৳ {p.price.toLocaleString()}</TableCell>
                           <TableCell><Badge className="bg-green-100 text-green-700 hover:bg-green-100 border-none font-bold text-[10px] rounded-full px-3">LIVE</Badge></TableCell>
                         </TableRow>
                       ))
@@ -360,8 +466,8 @@ export default function SellerDashboard() {
                         <TableCell colSpan={4} className="text-center py-20 text-muted-foreground bg-gray-50/30">
                           <div className="flex flex-col items-center gap-2">
                             <Box className="w-12 h-12 text-gray-300" />
-                            <p className="font-medium">You haven't posted any products yet.</p>
-                            <Button variant="link" className="text-primary font-bold" onClick={() => setIsAddingProduct(true)}>Add your first item</Button>
+                            <p className="font-medium">No products posted by your ID yet.</p>
+                            <Button variant="link" className="text-primary font-bold" onClick={() => setIsAddingProduct(true)}>Post your first item</Button>
                           </div>
                         </TableCell>
                       </TableRow>
@@ -376,65 +482,46 @@ export default function SellerDashboard() {
             <div className="max-w-2xl">
               <Card className="border-none shadow-sm">
                 <CardHeader>
-                  <CardTitle>My Store Profile</CardTitle>
-                  <CardDescription>Manage your business identity and pickup location.</CardDescription>
+                  <CardTitle>My Identity & Store Settings</CardTitle>
+                  <CardDescription>Update how you and your shop look to the marketplace.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSaveStoreInfo} className="space-y-6">
                     <div className="space-y-4">
-                      <div className="space-y-2">
-                        <Label htmlFor="shopName" className="font-bold flex items-center gap-2">
-                          <Store className="w-4 h-4 text-primary" /> My Shop Name
-                        </Label>
-                        <Input 
-                          id="shopName" 
-                          name="shopName"
-                          defaultValue={user.shopName || `${user.name}'s Store`}
-                          required 
-                          className="rounded-xl border-gray-200 h-11"
-                        />
-                      </div>
-                      <div className="space-y-2">
-                        <Label htmlFor="shopAddress" className="font-bold flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-primary" /> Warehouse / Pickup Address
-                        </Label>
-                        <Input 
-                          id="shopAddress" 
-                          name="shopAddress"
-                          defaultValue={user.address}
-                          placeholder="Your business pickup location"
-                          className="rounded-xl border-gray-200 h-11"
-                        />
-                      </div>
-                      <div className="grid grid-cols-2 gap-4">
+                      {/* Personal Section */}
+                      <div className="p-4 rounded-xl border bg-muted/20 space-y-4">
+                        <h3 className="text-sm font-bold flex items-center gap-2 text-primary"><User className="w-4 h-4" /> Personal Identity</h3>
                         <div className="space-y-2">
-                          <Label htmlFor="shopPhone" className="font-bold flex items-center gap-2">
-                            <Phone className="w-4 h-4 text-primary" /> Contact Phone
-                          </Label>
-                          <Input 
-                            id="shopPhone" 
-                            name="shopPhone"
-                            defaultValue={user.phone}
-                            placeholder="+880..."
-                            className="rounded-xl border-gray-200 h-11"
-                          />
+                          <Label htmlFor="sellerName" className="font-bold">Full Name (Seller)</Label>
+                          <Input id="sellerName" name="sellerName" defaultValue={user.name} required className="rounded-xl border-gray-200 h-11 bg-white" />
+                        </div>
+                      </div>
+
+                      {/* Store Section */}
+                      <div className="p-4 rounded-xl border bg-muted/20 space-y-4">
+                        <h3 className="text-sm font-bold flex items-center gap-2 text-primary"><Store className="w-4 h-4" /> Business Profile</h3>
+                        <div className="space-y-2">
+                          <Label htmlFor="shopName" className="font-bold">Shop Display Name</Label>
+                          <Input id="shopName" name="shopName" defaultValue={user.shopName || `${user.name}'s Store`} required className="rounded-xl border-gray-200 h-11 bg-white" />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="shopEmail" className="font-bold flex items-center gap-2">
-                            <Mail className="w-4 h-4 text-primary" /> Support Email
-                          </Label>
-                          <Input 
-                            id="shopEmail" 
-                            type="email"
-                            defaultValue={user.email}
-                            disabled
-                            className="rounded-xl border-gray-100 bg-gray-50 h-11"
-                          />
+                          <Label htmlFor="shopAddress" className="font-bold">Business Pickup Address</Label>
+                          <Input id="shopAddress" name="shopAddress" defaultValue={user.address} placeholder="Enter full office/warehouse address" className="rounded-xl border-gray-200 h-11 bg-white" />
+                        </div>
+                        <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                          <div className="space-y-2">
+                            <Label htmlFor="shopPhone" className="font-bold">Contact Phone</Label>
+                            <Input id="shopPhone" name="shopPhone" defaultValue={user.phone} placeholder="+880..." className="rounded-xl border-gray-200 h-11 bg-white" />
+                          </div>
+                          <div className="space-y-2">
+                            <Label htmlFor="shopEmail" className="font-bold">Official Email (Private)</Label>
+                            <Input id="shopEmail" type="email" defaultValue={user.email} disabled className="rounded-xl border-gray-100 bg-gray-50 h-11" />
+                          </div>
                         </div>
                       </div>
                     </div>
                     <Button type="submit" className="w-full bg-primary text-white font-bold rounded-full h-12 shadow-lg shadow-primary/20 hover:brightness-110 gap-2">
-                      <Save className="w-5 h-5" /> Save Shop Identity
+                      <Save className="w-5 h-5" /> Save My Details
                     </Button>
                   </form>
                 </CardContent>
