@@ -41,7 +41,7 @@ export const products: Product[] = [
     price: 1142,
     originalPrice: 1604,
     brand: 'No Brand',
-    sellerId: 'seller123',
+    sellerId: 'admin', // Default admin product
     image: 'https://picsum.photos/seed/dji1/600/600',
     description: '3D printed ABS engineering material molded in one piece Structure optimization, ultra-lightweight design Snap installation, no need to disassemble the fuselage screws. Does not affect the palm takeoff and landing. Easy to install, quick release design, snap-on fixation.',
     rating: 0,

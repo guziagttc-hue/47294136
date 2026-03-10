@@ -20,13 +20,19 @@ export default function SignupPage() {
 
   const handleSignup = (e: React.FormEvent) => {
     e.preventDefault();
+    const target = e.target as any;
+    
     // Simulate signup and save to local storage
     const userData = {
-      name: (e.target as any).fullname.value,
-      email: (e.target as any).email.value,
+      name: target.fullname.value,
+      email: target.email.value,
       role: role,
-      isLoggedIn: true
+      isLoggedIn: true,
+      shopName: role === 'SELLER' ? `${target.fullname.value}'s Store` : null,
+      address: '',
+      phone: ''
     };
+    
     localStorage.setItem('techshop_user', JSON.stringify(userData));
     
     toast({
@@ -34,7 +40,12 @@ export default function SignupPage() {
       description: `Welcome! You are registered as a ${role.toLowerCase()}.`,
     });
     
-    router.push(role === 'SELLER' ? '/seller/dashboard' : '/profile');
+    // Redirect based on role
+    if (role === 'SELLER') {
+      router.push('/seller/dashboard');
+    } else {
+      router.push('/profile');
+    }
   };
 
   return (
@@ -62,13 +73,13 @@ export default function SignupPage() {
             </div>
 
             <div className="space-y-3 pt-2">
-              <Label className="text-sm font-bold">I want to join as a:</Label>
+              <Label className="text-sm font-bold text-gray-700">I want to join as a:</Label>
               <RadioGroup defaultValue="BUYER" onValueChange={(val) => setRole(val as any)} className="flex gap-4">
-                <div className="flex items-center space-x-2 bg-muted/50 p-3 rounded-lg flex-1 cursor-pointer hover:bg-muted border border-transparent has-[:checked]:border-primary transition-all">
+                <div className={`flex items-center space-x-2 p-4 rounded-xl border-2 transition-all flex-1 cursor-pointer ${role === 'BUYER' ? 'border-primary bg-primary/5' : 'border-gray-100 hover:border-gray-200'}`}>
                   <RadioGroupItem value="BUYER" id="role-buyer" />
                   <Label htmlFor="role-buyer" className="cursor-pointer font-bold">Buyer</Label>
                 </div>
-                <div className="flex items-center space-x-2 bg-muted/50 p-3 rounded-lg flex-1 cursor-pointer hover:bg-muted border border-transparent has-[:checked]:border-primary transition-all">
+                <div className={`flex items-center space-x-2 p-4 rounded-xl border-2 transition-all flex-1 cursor-pointer ${role === 'SELLER' ? 'border-primary bg-primary/5' : 'border-gray-100 hover:border-gray-200'}`}>
                   <RadioGroupItem value="SELLER" id="role-seller" />
                   <Label htmlFor="role-seller" className="cursor-pointer font-bold">Seller</Label>
                 </div>
@@ -77,12 +88,14 @@ export default function SignupPage() {
             
             <div className="flex items-center space-x-2 pt-2">
               <Checkbox id="terms" required />
-              <label htmlFor="terms" className="text-xs text-muted-foreground">
-                I agree to the <Link href="#" className="text-primary hover:underline">Terms & Conditions</Link> and <Link href="#" className="text-primary hover:underline">Privacy Policy</Link>
+              <label htmlFor="terms" className="text-xs text-muted-foreground cursor-pointer">
+                I agree to the <Link href="#" className="text-primary hover:underline">Terms & Conditions</Link>
               </label>
             </div>
 
-            <Button type="submit" className="w-full bg-primary text-white font-bold rounded-full h-12 mt-4">Create Account</Button>
+            <Button type="submit" className="w-full bg-primary text-white font-bold rounded-full h-12 mt-4 hover:brightness-110">
+              Create Account
+            </Button>
           </form>
 
           <p className="text-center text-sm text-muted-foreground pt-4">
