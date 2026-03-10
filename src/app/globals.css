@@ -65,3 +65,10 @@
     @apply font-headline;
   }
 }
+
+/* Custom styles for the app */
+@layer utilities {
+  .pb-safe {
+    padding-bottom: env(safe-area-inset-bottom);
+  }
+}
