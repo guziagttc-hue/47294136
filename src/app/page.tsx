@@ -64,7 +64,7 @@ export default function Home() {
     <div className="flex flex-col min-h-screen bg-[#eff0f5]">
       <Navbar />
 
-      <main className="flex-grow pb-20">
+      <main className="flex-grow pb-10">
         {/* Hero Section */}
         <section className="container mx-auto px-0 sm:px-4 lg:mt-4">
           <div className="flex flex-col lg:flex-row gap-4">
@@ -90,20 +90,19 @@ export default function Home() {
               </ul>
             </div>
             
-            {/* Main Carousel & Banner */}
-            <div className="flex-1 flex flex-col gap-4">
+            {/* Main Carousel */}
+            <div className="flex-1 overflow-hidden">
               <Carousel className="w-full lg:rounded-sm overflow-hidden group shadow-sm" opts={{ loop: true }}>
                 <CarouselContent>
                   {heroImages.map((hero, idx) => (
                     <CarouselItem key={idx}>
-                      <div className="relative aspect-[12/6] md:aspect-[12/4.5] w-full">
+                      <div className="relative aspect-[16/9] md:aspect-[12/4.5] w-full">
                         <Image 
                           src={hero.imageUrl} 
                           alt={hero.description}
                           fill
                           className="object-cover"
                           priority={idx === 0}
-                          data-ai-hint="shopping banner"
                         />
                       </div>
                     </CarouselItem>
@@ -117,11 +116,11 @@ export default function Home() {
         </section>
 
         {/* Mobile Quick Links / Category Icons */}
-        <section className="lg:hidden container mx-auto px-4 mt-6">
-          <div className="bg-white rounded-xl p-4 shadow-sm grid grid-cols-5 gap-y-6">
+        <section className="lg:hidden container mx-auto px-2 mt-4">
+          <div className="bg-white rounded-xl p-4 shadow-sm grid grid-cols-5 gap-y-4">
             {categories.map((cat) => (
-              <Link key={cat.id} href={`/category/${cat.id}`} className="flex flex-col items-center gap-2">
-                <div className="w-12 h-12 rounded-full bg-primary/5 flex items-center justify-center text-primary border border-primary/10 hover:bg-primary hover:text-white transition-all">
+              <Link key={cat.id} href={`/category/${cat.id}`} className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform">
+                <div className="w-11 h-11 rounded-full bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
                   {getCategoryIcon(cat.icon)}
                 </div>
                 <span className="text-[10px] font-bold text-center text-gray-600 line-clamp-1">{cat.shortName}</span>
@@ -131,28 +130,27 @@ export default function Home() {
         </section>
 
         {/* Flash Sale */}
-        <section className="container mx-auto px-2 sm:px-4 mt-6">
-          <div className="bg-white p-3 sm:p-4 rounded-sm shadow-sm">
-            <div className="flex items-center justify-between border-b pb-3 mb-3 sm:pb-4 sm:mb-4">
-              <div className="flex flex-col sm:flex-row sm:items-center gap-2 sm:gap-8">
-                <h2 className="text-lg sm:text-xl font-bold text-primary">Flash Sale</h2>
-                <div className="flex items-center gap-3">
-                  <span className="text-[12px] sm:text-[14px] font-bold text-gray-600">Ending in</span>
-                  <div className="flex gap-1.5">
-                    <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-xs font-bold min-w-[22px] text-center">08</span>
+        <section className="container mx-auto px-2 sm:px-4 mt-4 sm:mt-6">
+          <div className="bg-white p-2 sm:p-4 rounded-sm shadow-sm">
+            <div className="flex items-center justify-between border-b pb-2 mb-2 sm:pb-4 sm:mb-4">
+              <div className="flex flex-row items-center gap-4">
+                <h2 className="text-base sm:text-xl font-bold text-primary">Flash Sale</h2>
+                <div className="flex items-center gap-2">
+                  <div className="flex gap-1">
+                    <span className="bg-primary text-white px-1 py-0.5 rounded-sm text-[10px] sm:text-xs font-bold min-w-[20px] text-center">08</span>
                     <span className="text-primary font-bold">:</span>
-                    <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-xs font-bold min-w-[22px] text-center">45</span>
+                    <span className="bg-primary text-white px-1 py-0.5 rounded-sm text-[10px] sm:text-xs font-bold min-w-[20px] text-center">45</span>
                     <span className="text-primary font-bold">:</span>
-                    <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-xs font-bold min-w-[22px] text-center">12</span>
+                    <span className="bg-primary text-white px-1 py-0.5 rounded-sm text-[10px] sm:text-xs font-bold min-w-[20px] text-center">12</span>
                   </div>
                 </div>
               </div>
-              <Button variant="outline" size="sm" className="hidden sm:flex border-primary text-primary hover:bg-primary/5 rounded-sm font-bold uppercase text-xs h-9">
+              <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/5 rounded-sm font-bold text-[10px] sm:text-xs h-8 px-2">
                 SHOP ALL
               </Button>
             </div>
-            {/* 2 columns on mobile, 6 on desktop */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+            {/* 2 columns on mobile */}
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
               {flashSaleProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -161,19 +159,18 @@ export default function Home() {
         </section>
 
         {/* Just For You */}
-        <section className="container mx-auto px-2 sm:px-4 mt-8">
-          <h2 className="text-lg sm:text-xl font-bold mb-4 text-[#424242] px-2">Just For You</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2 sm:gap-3">
+        <section className="container mx-auto px-2 sm:px-4 mt-6">
+          <h2 className="text-base sm:text-xl font-bold mb-3 text-[#424242] px-1">Just For You</h2>
+          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
             {regularProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
-            {/* Duplicate for demo scroll feel */}
             {regularProducts.map((product) => (
               <ProductCard key={`${product.id}-dup`} product={product} />
             ))}
           </div>
-          <div className="mt-10 flex justify-center px-4">
-            <Button className="w-full max-w-xs bg-white text-primary border border-primary font-bold hover:bg-primary/5 rounded-sm h-12 uppercase tracking-wide">
+          <div className="mt-8 flex justify-center px-4">
+            <Button className="w-full max-w-xs bg-white text-primary border border-primary font-bold hover:bg-primary/5 rounded-sm h-11 uppercase text-sm">
               LOAD MORE
             </Button>
           </div>
