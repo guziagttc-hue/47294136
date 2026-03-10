@@ -22,7 +22,10 @@ import {
   Save,
   MapPin,
   Phone,
-  Mail
+  Mail,
+  Box,
+  Tag,
+  Info
 } from 'lucide-react';
 import { 
   Card, 
@@ -47,7 +50,7 @@ import {
   ChartTooltipContent 
 } from '@/components/ui/chart';
 import { Bar, BarChart, CartesianGrid, XAxis } from 'recharts';
-import { products } from '@/lib/mock-data';
+import { products, categories } from '@/lib/mock-data';
 import { 
   Dialog, 
   DialogContent, 
@@ -59,6 +62,7 @@ import {
 } from '@/components/ui/dialog';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { 
   Select, 
   SelectContent, 
@@ -68,6 +72,7 @@ import {
 } from '@/components/ui/select';
 import { Badge } from '@/components/ui/badge';
 import { useToast } from '@/hooks/use-toast';
+import { ScrollArea } from '@/components/ui/scroll-area';
 
 const chartData = [
   { month: "January", desktop: 186, mobile: 80 },
@@ -100,6 +105,7 @@ const recentOrders = [
 export default function AdminDashboard() {
   const [activeTab, setActiveTab] = useState("dashboard");
   const { toast } = useToast();
+  const [isAddingProduct, setIsAddingProduct] = useState(false);
   
   // Store Settings State
   const [storeSettings, setStoreSettings] = useState({
@@ -113,6 +119,15 @@ export default function AdminDashboard() {
     toast({
       title: "Settings Saved",
       description: "Store contact information has been updated successfully."
+    });
+  };
+
+  const handleAddProduct = (e: React.FormEvent) => {
+    e.preventDefault();
+    setIsAddingProduct(false);
+    toast({
+      title: "Product Added Successfully",
+      description: "New product has been listed in the catalog."
     });
   };
 
@@ -183,50 +198,105 @@ export default function AdminDashboard() {
             <h1 className="text-xl font-bold capitalize">{activeTab} Overview</h1>
           </div>
           <div className="flex items-center gap-4">
-            <Dialog>
+            <Dialog open={isAddingProduct} onOpenChange={setIsAddingProduct}>
               <DialogTrigger asChild>
                 <Button className="bg-primary text-white gap-2 font-bold rounded-full">
                   <Plus className="w-4 h-4" /> Add Product
                 </Button>
               </DialogTrigger>
-              <DialogContent className="sm:max-w-[425px]">
-                <DialogHeader>
-                  <DialogTitle>Add New Product</DialogTitle>
+              <DialogContent className="sm:max-w-[600px] p-0 overflow-hidden">
+                <DialogHeader className="p-6 bg-muted/30">
+                  <DialogTitle className="text-xl font-bold flex items-center gap-2">
+                    <Plus className="w-5 h-5 text-primary" /> Add New Product
+                  </DialogTitle>
                   <DialogDescription>
-                    Enter the details for the new product here. Click save when you're done.
+                    Provide comprehensive details to list a new product in your store.
                   </DialogDescription>
                 </DialogHeader>
-                <div className="grid gap-4 py-4">
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="name" className="text-right text-xs font-bold">Name</Label>
-                    <Input id="name" placeholder="Product name" className="col-span-3" />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="price" className="text-right text-xs font-bold">Price (৳)</Label>
-                    <Input id="price" type="number" placeholder="0.00" className="col-span-3" />
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="category" className="text-right text-xs font-bold">Category</Label>
-                    <Select>
-                      <SelectTrigger className="col-span-3">
-                        <SelectValue placeholder="Select Category" />
-                      </SelectTrigger>
-                      <SelectContent>
-                        <SelectItem value="electronics">Electronics</SelectItem>
-                        <SelectItem value="fashion">Fashion</SelectItem>
-                        <SelectItem value="groceries">Groceries</SelectItem>
-                        <SelectItem value="beauty">Beauty</SelectItem>
-                      </SelectContent>
-                    </Select>
-                  </div>
-                  <div className="grid grid-cols-4 items-center gap-4">
-                    <Label htmlFor="image" className="text-right text-xs font-bold">Image URL</Label>
-                    <Input id="image" placeholder="https://..." className="col-span-3" />
-                  </div>
-                </div>
-                <DialogFooter>
-                  <Button type="submit" className="bg-primary text-white font-bold w-full rounded-full">Save Product</Button>
-                </DialogFooter>
+                <ScrollArea className="max-h-[80vh]">
+                  <form onSubmit={handleAddProduct} className="p-6 space-y-6">
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                      {/* Basic Info */}
+                      <div className="space-y-4 md:col-span-2">
+                        <div className="space-y-2">
+                          <Label htmlFor="name" className="text-sm font-bold flex items-center gap-2">
+                            <Tag className="w-4 h-4 text-primary" /> Product Name
+                          </Label>
+                          <Input id="name" placeholder="e.g. Sony WH-1000XM5 Wireless Headphones" required />
+                        </div>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="category" className="text-sm font-bold flex items-center gap-2">
+                          <Package className="w-4 h-4 text-primary" /> Category
+                        </Label>
+                        <Select required>
+                          <SelectTrigger>
+                            <SelectValue placeholder="Select Category" />
+                          </SelectTrigger>
+                          <SelectContent>
+                            {categories.map((cat) => (
+                              <SelectItem key={cat.id} value={cat.id}>{cat.name}</SelectItem>
+                            ))}
+                          </SelectContent>
+                        </Select>
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="brand" className="text-sm font-bold flex items-center gap-2">
+                          <Box className="w-4 h-4 text-primary" /> Brand
+                        </Label>
+                        <Input id="brand" placeholder="e.g. Sony, Apple, Samsung" />
+                      </div>
+
+                      {/* Pricing */}
+                      <div className="space-y-2">
+                        <Label htmlFor="price" className="text-sm font-bold flex items-center gap-2">
+                          <DollarSign className="w-4 h-4 text-primary" /> Sale Price (৳)
+                        </Label>
+                        <Input id="price" type="number" placeholder="0.00" required />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="originalPrice" className="text-sm font-bold flex items-center gap-2">
+                          <span className="text-gray-400">৳</span> Original Price (৳)
+                        </Label>
+                        <Input id="originalPrice" type="number" placeholder="Optional for discount" />
+                      </div>
+
+                      {/* Inventory & Media */}
+                      <div className="space-y-2">
+                        <Label htmlFor="stock" className="text-sm font-bold flex items-center gap-2">
+                          <BarChart3 className="w-4 h-4 text-primary" /> Stock Quantity
+                        </Label>
+                        <Input id="stock" type="number" placeholder="Enter quantity" defaultValue="10" />
+                      </div>
+
+                      <div className="space-y-2">
+                        <Label htmlFor="image" className="text-sm font-bold flex items-center gap-2">
+                          <Info className="w-4 h-4 text-primary" /> Image URL
+                        </Label>
+                        <Input id="image" placeholder="https://picsum.photos/..." required />
+                      </div>
+
+                      {/* Description */}
+                      <div className="space-y-2 md:col-span-2">
+                        <Label htmlFor="description" className="text-sm font-bold">Product Description</Label>
+                        <Textarea 
+                          id="description" 
+                          placeholder="Write detailed information about the product..." 
+                          className="min-h-[120px] resize-none"
+                          required
+                        />
+                      </div>
+                    </div>
+
+                    <DialogFooter className="pt-4">
+                      <Button variant="outline" type="button" onClick={() => setIsAddingProduct(false)} className="rounded-full">Cancel</Button>
+                      <Button type="submit" className="bg-primary text-white font-bold rounded-full px-8">Save Product Listing</Button>
+                    </DialogFooter>
+                  </form>
+                </ScrollArea>
               </DialogContent>
             </Dialog>
             <div className="w-10 h-10 rounded-full bg-accent text-primary font-bold flex items-center justify-center border-2 border-primary/20">
@@ -409,7 +479,7 @@ export default function AdminDashboard() {
                       <TableRow key={product.id}>
                         <TableCell>
                           <div className="flex items-center gap-3">
-                            <div className="w-10 h-10 rounded-lg bg-muted relative overflow-hidden shrink-0">
+                            <div className="w-10 h-10 rounded-lg bg-muted relative overflow-hidden shrink-0 border">
                               <img src={product.image} alt="" className="object-cover w-full h-full" />
                             </div>
                             <div className="font-bold text-sm line-clamp-1 max-w-[200px]">{product.name}</div>
@@ -591,3 +661,4 @@ export default function AdminDashboard() {
     </div>
   );
 }
+
