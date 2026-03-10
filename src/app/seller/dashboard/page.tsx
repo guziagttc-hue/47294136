@@ -24,7 +24,8 @@ import {
   Mail,
   Save,
   User,
-  ShieldCheck
+  ShieldCheck,
+  Eye
 } from 'lucide-react';
 import { 
   Card, 
@@ -186,6 +187,11 @@ export default function SellerDashboard() {
             <h1 className="text-xl font-bold text-gray-800">{user.shopName || 'My Store'}</h1>
           </div>
           <div className="flex items-center gap-4">
+            <Link href={`/shop/${user.email}`}>
+              <Button variant="outline" className="gap-2 rounded-full text-xs font-bold border-gray-200">
+                <Eye className="w-4 h-4" /> Preview Public Shop
+              </Button>
+            </Link>
             <Dialog open={isAddingProduct} onOpenChange={setIsAddingProduct}>
               <DialogTrigger asChild>
                 <Button className="bg-primary text-white gap-2 font-bold rounded-full px-6 shadow-lg shadow-primary/20 hover:brightness-110">
@@ -320,9 +326,16 @@ export default function SellerDashboard() {
                     <h3 className="font-bold text-gray-800">{user.name}</h3>
                     <p className="text-xs text-muted-foreground">{user.email}</p>
                   </div>
-                  <Button variant="outline" size="sm" className="w-full rounded-full" onClick={() => setActiveTab("settings")}>
-                    Edit Identity
-                  </Button>
+                  <div className="flex flex-col gap-2 w-full">
+                    <Button variant="outline" size="sm" className="w-full rounded-full" onClick={() => setActiveTab("settings")}>
+                      Edit Identity
+                    </Button>
+                    <Link href={`/shop/${user.email}`} className="w-full">
+                      <Button variant="secondary" size="sm" className="w-full rounded-full gap-2">
+                        <Eye className="w-3 h-3" /> View Public Shop
+                      </Button>
+                    </Link>
+                  </div>
                 </Card>
               </div>
 
