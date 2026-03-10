@@ -15,7 +15,7 @@ export default function MobileBottomNav() {
   const navItems = [
     { label: 'Home', icon: Home, href: '/' },
     { label: 'Categories', icon: LayoutGrid, href: '/#categories' },
-    { label: 'Messages', icon: MessageSquare, href: '/chat' },
+    { label: 'Messenger', icon: MessageSquare, href: '/chat' },
     { label: 'Cart', icon: ShoppingCart, href: '/cart', count: cartCount },
     { label: 'Account', icon: User, href: '/profile' },
   ];
@@ -44,7 +44,9 @@ export default function MobileBottomNav() {
                   </span>
                 )}
               </div>
-              <span className="text-[10px] font-bold tracking-tight">{item.label}</span>
+              <span className="text-[10px] font-bold tracking-tight">
+                {item.label === 'Account' ? 'My TechShop' : item.label}
+              </span>
               {isActive && (
                 <div className="absolute -top-1 w-1 h-1 bg-primary rounded-full" />
               )}
