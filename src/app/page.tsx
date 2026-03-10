@@ -66,7 +66,7 @@ export default function Home() {
 
       <main className="flex-grow pb-10">
         {/* Hero Section */}
-        <section className="container mx-auto px-0 sm:px-4 lg:mt-4">
+        <section className="container mx-auto px-4 lg:mt-4">
           <div className="flex flex-col lg:flex-row gap-4">
             {/* Sidebar Categories (Desktop) */}
             <div className="hidden lg:block w-64 bg-white rounded-sm py-2 shadow-sm border border-gray-100 shrink-0">
@@ -96,7 +96,7 @@ export default function Home() {
                 <CarouselContent>
                   {heroImages.map((hero, idx) => (
                     <CarouselItem key={idx}>
-                      <div className="relative aspect-[16/9] md:aspect-[12/4.5] w-full">
+                      <div className="relative aspect-[16/9] md:aspect-[21/9] w-full">
                         <Image 
                           src={hero.imageUrl} 
                           alt={hero.description}
@@ -115,42 +115,28 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Mobile Quick Links / Category Icons */}
-        <section className="lg:hidden container mx-auto px-2 mt-4">
-          <div className="bg-white rounded-xl p-4 shadow-sm grid grid-cols-5 gap-y-4">
-            {categories.map((cat) => (
-              <Link key={cat.id} href={`/category/${cat.id}`} className="flex flex-col items-center gap-1.5 active:scale-95 transition-transform">
-                <div className="w-11 h-11 rounded-full bg-primary/5 flex items-center justify-center text-primary border border-primary/10">
-                  {getCategoryIcon(cat.icon)}
-                </div>
-                <span className="text-[10px] font-bold text-center text-gray-600 line-clamp-1">{cat.shortName}</span>
-              </Link>
-            ))}
-          </div>
-        </section>
-
         {/* Flash Sale */}
-        <section className="container mx-auto px-2 sm:px-4 mt-4 sm:mt-6">
-          <div className="bg-white p-2 sm:p-4 rounded-sm shadow-sm">
-            <div className="flex items-center justify-between border-b pb-2 mb-2 sm:pb-4 sm:mb-4">
+        <section className="container mx-auto px-4 mt-6">
+          <div className="bg-white p-4 rounded-sm shadow-sm">
+            <div className="flex items-center justify-between border-b pb-4 mb-4">
               <div className="flex flex-row items-center gap-4">
-                <h2 className="text-base sm:text-xl font-bold text-primary">Flash Sale</h2>
+                <h2 className="text-xl font-bold text-primary">Flash Sale</h2>
                 <div className="flex items-center gap-2">
+                  <span className="text-sm font-medium">Ending in</span>
                   <div className="flex gap-1">
-                    <span className="bg-primary text-white px-1 py-0.5 rounded-sm text-[10px] sm:text-xs font-bold min-w-[20px] text-center">08</span>
+                    <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-xs font-bold">08</span>
                     <span className="text-primary font-bold">:</span>
-                    <span className="bg-primary text-white px-1 py-0.5 rounded-sm text-[10px] sm:text-xs font-bold min-w-[20px] text-center">45</span>
+                    <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-xs font-bold">45</span>
                     <span className="text-primary font-bold">:</span>
-                    <span className="bg-primary text-white px-1 py-0.5 rounded-sm text-[10px] sm:text-xs font-bold min-w-[20px] text-center">12</span>
+                    <span className="bg-primary text-white px-1.5 py-0.5 rounded-sm text-xs font-bold">12</span>
                   </div>
                 </div>
               </div>
-              <Button variant="ghost" size="sm" className="text-primary hover:bg-primary/5 rounded-sm font-bold text-[10px] sm:text-xs h-8 px-2">
+              <Button variant="outline" size="sm" className="text-primary border-primary hover:bg-primary/5 rounded-sm font-bold uppercase text-xs">
                 SHOP ALL
               </Button>
             </div>
-            {/* 2 columns on mobile */}
-            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
               {flashSaleProducts.map((product) => (
                 <ProductCard key={product.id} product={product} />
               ))}
@@ -159,9 +145,9 @@ export default function Home() {
         </section>
 
         {/* Just For You */}
-        <section className="container mx-auto px-2 sm:px-4 mt-6">
-          <h2 className="text-base sm:text-xl font-bold mb-3 text-[#424242] px-1">Just For You</h2>
-          <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-6 gap-2">
+        <section className="container mx-auto px-4 mt-8">
+          <h2 className="text-xl font-bold mb-4 text-[#424242]">Just For You</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-6 gap-4">
             {regularProducts.map((product) => (
               <ProductCard key={product.id} product={product} />
             ))}
@@ -169,7 +155,7 @@ export default function Home() {
               <ProductCard key={`${product.id}-dup`} product={product} />
             ))}
           </div>
-          <div className="mt-8 flex justify-center px-4">
+          <div className="mt-12 flex justify-center">
             <Button className="w-full max-w-xs bg-white text-primary border border-primary font-bold hover:bg-primary/5 rounded-sm h-11 uppercase text-sm">
               LOAD MORE
             </Button>

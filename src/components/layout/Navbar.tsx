@@ -68,7 +68,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Top Bar (Desktop Only) */}
+      {/* Top Bar */}
       <div className="bg-[#f5f5f5] text-[12px] py-1.5 hidden lg:block border-b">
         <div className="container mx-auto px-4 flex justify-end items-center gap-6 text-[#757575] font-medium">
           <Link href="/app-download" className="hover:text-primary transition-colors">Save More on App</Link>
@@ -97,106 +97,92 @@ export default function Navbar() {
       </div>
 
       {/* Main Navbar */}
-      <nav className="bg-white border-b shadow-sm py-2 lg:py-4">
-        <div className="container mx-auto px-4">
-          <div className="flex items-center justify-between gap-4">
-            {/* Menu Icon (Mobile Only) */}
-            <Button 
-              variant="ghost" 
-              size="icon" 
-              className="lg:hidden text-gray-700"
-              onClick={() => setIsMenuOpen(true)}
-            >
-              <Menu className="w-6 h-6" />
-            </Button>
+      <nav className="bg-white border-b shadow-sm py-4">
+        <div className="container mx-auto px-4 flex items-center justify-between gap-8">
+          {/* Logo */}
+          <Link href="/" className="shrink-0">
+            <span className="text-2xl lg:text-3xl font-black text-primary tracking-tighter">TechShop BD</span>
+          </Link>
 
-            {/* Logo */}
-            <Link href="/" className="shrink-0">
-              <span className="text-xl lg:text-3xl font-black text-primary tracking-tighter">TechShop BD</span>
-            </Link>
-
-            {/* Search (Desktop) */}
-            <div className="flex-1 max-w-2xl relative hidden lg:flex group">
-              <Input 
-                type="text" 
-                placeholder="Search in TechShop BD" 
-                className="w-full pl-4 pr-12 h-11 bg-[#eff0f5] border-none focus-visible:ring-0 placeholder:text-gray-500 rounded-sm"
-              />
-              <button className="absolute right-0 top-0 h-full w-12 bg-primary flex items-center justify-center rounded-r-sm hover:brightness-110">
-                <Search className="text-white w-5 h-5" />
-              </button>
-            </div>
-
-            {/* Actions */}
-            <div className="flex items-center gap-3 lg:gap-6">
-              {user ? (
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="ghost" className="h-8 w-8 lg:h-10 lg:w-10 rounded-full border border-primary/20 p-0 overflow-hidden">
-                      <Avatar className="h-full w-full">
-                        <AvatarImage src={`https://picsum.photos/seed/${user.email}/100/100`} />
-                        <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
-                      </Avatar>
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent className="w-56" align="end">
-                    <DropdownMenuLabel className="font-normal">
-                      <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-bold leading-none">{user.name}</p>
-                        <p className="text-xs text-muted-foreground">{user.email}</p>
-                      </div>
-                    </DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <Link href="/profile">
-                      <DropdownMenuItem className="cursor-pointer">
-                        <User className="mr-2 h-4 w-4" />
-                        <span>Profile</span>
-                      </DropdownMenuItem>
-                    </Link>
-                    {user.role === 'SELLER' && (
-                      <Link href="/seller/dashboard">
-                        <DropdownMenuItem className="cursor-pointer">
-                          <Store className="mr-2 h-4 w-4" />
-                          <span>Seller Center</span>
-                        </DropdownMenuItem>
-                      </Link>
-                    )}
-                    <DropdownMenuSeparator />
-                    <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={handleLogout}>
-                      <LogOut className="mr-2 h-4 w-4" />
-                      <span>Log out</span>
-                    </DropdownMenuItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-              ) : (
-                <Link href="/auth/login" className="hidden lg:block">
-                  <Button variant="ghost" size="icon" className="text-gray-700">
-                    <User className="w-6 h-6 lg:w-7 lg:h-7" />
-                  </Button>
-                </Link>
-              )}
-
-              <Link href="/cart" className="relative">
-                <ShoppingCart className="w-6 h-6 lg:w-7 lg:h-7 text-gray-700" />
-                {cartCount > 0 && (
-                  <Badge className="absolute -top-1.5 -right-1.5 h-4 min-w-[16px] lg:h-5 lg:min-w-[20px] flex items-center justify-center p-0.5 bg-primary text-white border-2 border-white rounded-full text-[9px] lg:text-[10px]">
-                    {cartCount}
-                  </Badge>
-                )}
-              </Link>
-            </div>
-          </div>
-          
-          {/* Mobile Search Bar */}
-          <div className="mt-2 lg:hidden relative">
+          {/* Search */}
+          <div className="flex-1 max-w-2xl relative hidden md:flex group">
             <Input 
               type="text" 
               placeholder="Search in TechShop BD" 
-              className="w-full pl-4 pr-10 h-9 bg-[#eff0f5] border-none focus-visible:ring-0 placeholder:text-gray-500 rounded-sm text-xs"
+              className="w-full pl-4 pr-12 h-11 bg-[#eff0f5] border-none focus-visible:ring-0 placeholder:text-gray-500 rounded-sm"
             />
-            <button className="absolute right-0 top-0 h-full w-9 bg-primary flex items-center justify-center rounded-r-sm">
-              <Search className="text-white w-4 h-4" />
+            <button className="absolute right-0 top-0 h-full w-12 bg-primary flex items-center justify-center rounded-r-sm hover:brightness-110">
+              <Search className="text-white w-5 h-5" />
             </button>
+          </div>
+
+          {/* Actions */}
+          <div className="flex items-center gap-4 lg:gap-6">
+            {user ? (
+              <DropdownMenu>
+                <DropdownMenuTrigger asChild>
+                  <Button variant="ghost" className="h-10 w-10 rounded-full border border-primary/20 p-0 overflow-hidden">
+                    <Avatar className="h-full w-full">
+                      <AvatarImage src={`https://picsum.photos/seed/${user.email}/100/100`} />
+                      <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
+                    </Avatar>
+                  </Button>
+                </DropdownMenuTrigger>
+                <DropdownMenuContent className="w-56" align="end">
+                  <DropdownMenuLabel className="font-normal">
+                    <div className="flex flex-col space-y-1">
+                      <p className="text-sm font-bold leading-none">{user.name}</p>
+                      <p className="text-xs text-muted-foreground">{user.email}</p>
+                    </div>
+                  </DropdownMenuLabel>
+                  <DropdownMenuSeparator />
+                  <Link href="/profile">
+                    <DropdownMenuItem className="cursor-pointer">
+                      <User className="mr-2 h-4 w-4" />
+                      <span>Profile</span>
+                    </DropdownMenuItem>
+                  </Link>
+                  {user.role === 'SELLER' && (
+                    <Link href="/seller/dashboard">
+                      <DropdownMenuItem className="cursor-pointer">
+                        <Store className="mr-2 h-4 w-4" />
+                        <span>Seller Center</span>
+                      </DropdownMenuItem>
+                    </Link>
+                  )}
+                  <DropdownMenuSeparator />
+                  <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={handleLogout}>
+                    <LogOut className="mr-2 h-4 w-4" />
+                    <span>Log out</span>
+                  </DropdownMenuItem>
+                </DropdownMenuContent>
+              </DropdownMenu>
+            ) : (
+              <Link href="/auth/login" className="hidden lg:block">
+                <Button variant="ghost" size="icon" className="text-gray-700">
+                  <User className="w-7 h-7" />
+                </Button>
+              </Link>
+            )}
+
+            <Link href="/cart" className="relative">
+              <ShoppingCart className="w-7 h-7 text-gray-700" />
+              {cartCount > 0 && (
+                <Badge className="absolute -top-1.5 -right-1.5 h-5 min-w-[20px] flex items-center justify-center p-0.5 bg-primary text-white border-2 border-white rounded-full text-[10px]">
+                  {cartCount}
+                </Badge>
+              )}
+            </Link>
+
+            {/* Mobile Menu Button */}
+            <Button 
+              variant="ghost" 
+              size="icon" 
+              className="md:hidden text-gray-700"
+              onClick={() => setIsMenuOpen(true)}
+            >
+              <Menu className="w-7 h-7" />
+            </Button>
           </div>
         </div>
 
