@@ -13,6 +13,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { useCart } from '@/context/CartContext';
 import { useToast } from '@/hooks/use-toast';
+import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
 import { 
   ShoppingCart, 
   Heart, 
@@ -26,7 +27,6 @@ import {
   ChevronRight,
   Info
 } from 'lucide-react';
-import { Table, TableBody, TableCell, TableRow } from '@/components/ui/table';
 
 export default function ProductDetailPage() {
   const { id } = useParams();
@@ -140,7 +140,7 @@ export default function ProductDetailPage() {
 
                   <div className="text-[13px] text-gray-500">
                     Brand: <Link href="#" className="text-blue-500 hover:underline">{product.brand || 'No Brand'}</Link> | 
-                    <Link href="#" className="text-blue-500 hover:underline ml-1">More Camera Accessories from {product.brand || 'No Brand'}</Link>
+                    <Link href="#" className="text-blue-500 hover:underline ml-1">More Accessories from {product.brand || 'No Brand'}</Link>
                   </div>
 
                   <div className="py-4 border-y border-gray-100">
@@ -158,8 +158,8 @@ export default function ProductDetailPage() {
                   {/* Options */}
                   <div className="space-y-4">
                     <div className="flex items-center gap-4 text-sm">
-                      <span className="text-gray-500 w-16">Size</span>
-                      <Badge variant="outline" className="border-primary text-primary px-3 py-1 rounded-sm">White</Badge>
+                      <span className="text-gray-500 w-16">Variation</span>
+                      <Badge variant="outline" className="border-primary text-primary px-3 py-1 rounded-sm">Standard</Badge>
                     </div>
                     
                     <div className="flex items-center gap-4 text-sm">
@@ -181,13 +181,13 @@ export default function ProductDetailPage() {
 
                   <div className="flex gap-3 pt-6">
                     <Button 
-                      className="flex-1 bg-[#2abbe8] hover:bg-[#1f93b8] text-white rounded-sm h-11 font-medium"
+                      className="flex-1 bg-[#2abbe8] hover:bg-[#1f93b8] text-white rounded-sm h-11 font-medium uppercase text-xs"
                     >
                       Buy Now
                     </Button>
                     <Button 
                       onClick={handleAddToCart}
-                      className="flex-1 bg-primary hover:brightness-110 text-white rounded-sm h-11 font-medium"
+                      className="flex-1 bg-primary hover:brightness-110 text-white rounded-sm h-11 font-medium uppercase text-xs"
                     >
                       Add to Cart
                     </Button>
@@ -202,28 +202,6 @@ export default function ProductDetailPage() {
                 </div>
                 <div className="p-4 text-sm text-gray-600 leading-relaxed space-y-2">
                   <p>{product.description}</p>
-                  <ul className="list-disc pl-5 space-y-1 mt-4">
-                    <li>Easy to store and quick to access.</li>
-                    <li>Tested for quality assurance, giving you peace of mind.</li>
-                    <li>Soft and comfortable for an improved user experience.</li>
-                    <li>High utility with minimalist design.</li>
-                    <li>Reliable quality that meets your daily needs.</li>
-                  </ul>
-                </div>
-              </div>
-
-              {/* Specifications */}
-              <div className="mt-8">
-                <div className="bg-[#fafafa] border-b p-3">
-                  <h3 className="text-sm font-bold text-gray-700">Specifications of {product.name}</h3>
-                </div>
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-x-12 p-4">
-                  {Object.entries(product.specifications).map(([key, value]) => (
-                    <div key={key} className="flex py-2 border-b border-gray-50 text-[13px]">
-                      <span className="text-gray-400 w-1/2">{key}</span>
-                      <span className="text-gray-700 w-1/2">{value}</span>
-                    </div>
-                  ))}
                 </div>
               </div>
             </div>
@@ -282,32 +260,42 @@ export default function ProductDetailPage() {
                 </div>
               </div>
 
-              {/* Seller Info */}
+              {/* Seller Info Updated with Profile Image */}
               <div className="bg-white p-4 rounded-sm shadow-sm space-y-4">
-                <div className="text-[11px] text-gray-400">Sold by</div>
+                <div className="text-[11px] text-gray-400 uppercase font-bold tracking-wider">Sold by</div>
                 <div className="flex items-center justify-between">
-                  <div className="flex items-center gap-2">
-                    <Store className="w-4 h-4 text-primary" />
-                    <span className="text-[13px] font-bold text-gray-700">AiBaby Store</span>
+                  <div className="flex items-center gap-3">
+                    <Avatar className="w-10 h-10 border border-primary/20">
+                      <AvatarImage src={`https://picsum.photos/seed/${product.sellerId}/100/100`} />
+                      <AvatarFallback className="bg-primary/10 text-primary text-xs">
+                        {product.sellerId[0].toUpperCase()}
+                      </AvatarFallback>
+                    </Avatar>
+                    <div className="flex flex-col">
+                      <span className="text-[13px] font-bold text-gray-700 capitalize">{product.sellerId}'s Store</span>
+                      <div className="flex items-center gap-1">
+                        <Badge className="bg-green-500 h-3 text-[8px] font-bold px-1 py-0">Verified</Badge>
+                      </div>
+                    </div>
                   </div>
-                  <button className="text-blue-500 text-[12px] font-bold uppercase">Chat Now</button>
+                  <button className="text-blue-500 text-[11px] font-bold uppercase hover:underline">Chat Now</button>
                 </div>
                 <div className="grid grid-cols-3 gap-2 border-t pt-4 text-center">
                   <div>
-                    <div className="text-[11px] text-gray-400">Positive Ratings</div>
-                    <div className="text-lg font-bold">86%</div>
+                    <div className="text-[10px] text-gray-400 uppercase font-bold">Ratings</div>
+                    <div className="text-base font-bold text-gray-700">86%</div>
                   </div>
                   <div>
-                    <div className="text-[11px] text-gray-400">Ship on Time</div>
-                    <div className="text-lg font-bold">100%</div>
+                    <div className="text-[10px] text-gray-400 uppercase font-bold">Shipping</div>
+                    <div className="text-base font-bold text-gray-700">100%</div>
                   </div>
                   <div>
-                    <div className="text-[11px] text-gray-400">Response Rate</div>
-                    <div className="text-lg font-bold">98%</div>
+                    <div className="text-[10px] text-gray-400 uppercase font-bold">Response</div>
+                    <div className="text-base font-bold text-gray-700">98%</div>
                   </div>
                 </div>
-                <Link href="#" className="block text-center text-blue-500 font-bold uppercase text-[12px] py-2">
-                  Go to Store
+                <Link href={`/shop/${product.sellerId}`} className="block text-center text-blue-500 font-bold uppercase text-[12px] py-2 border rounded-sm hover:bg-blue-50 transition-colors">
+                  GO TO STORE
                 </Link>
               </div>
             </div>
