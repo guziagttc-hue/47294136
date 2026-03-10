@@ -2,8 +2,20 @@
 "use client";
 
 import Link from 'next/link';
-import { ShoppingCart, Search, Menu, X, Smartphone, Globe, User, LogOut, Settings as SettingsIcon } from 'lucide-react';
-import { useState } from 'react';
+import { 
+  ShoppingCart, 
+  Search, 
+  Menu, 
+  X, 
+  Smartphone, 
+  Globe, 
+  User, 
+  LogOut, 
+  Settings as SettingsIcon,
+  Home as HomeIcon,
+  Store
+} from 'lucide-react';
+import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -18,13 +30,22 @@ import {
   DropdownMenuTrigger 
 } from '@/components/ui/dropdown-menu';
 import { Avatar, AvatarFallback, AvatarImage } from '@/components/ui/avatar';
+import { useRouter } from 'next/navigation';
 
 export default function Navbar() {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [language, setLanguage] = useState<'EN' | 'BN'>('BN');
-  const [isLoggedIn, setIsLoggedIn] = useState(false); // Simulated login state
+  const [user, setUser] = useState<any>(null);
   const { cartCount } = useCart();
   const { toast } = useToast();
+  const router = useRouter();
+
+  useEffect(() => {
+    const savedUser = localStorage.getItem('techshop_user');
+    if (savedUser) {
+      setUser(JSON.parse(savedUser));
+    }
+  }, []);
 
   const toggleLanguage = () => {
     const newLang = language === 'BN' ? 'EN' : 'BN';
@@ -36,11 +57,13 @@ export default function Navbar() {
   };
 
   const handleLogout = () => {
-    setIsLoggedIn(false);
+    localStorage.removeItem('techshop_user');
+    setUser(null);
     toast({
       title: "Logged Out",
       description: "You have been successfully logged out.",
     });
+    router.push('/');
   };
 
   return (
@@ -49,10 +72,12 @@ export default function Navbar() {
       <div className="bg-[#f5f5f5] text-[12px] py-1.5 hidden lg:block border-b">
         <div className="container mx-auto px-4 flex justify-end items-center gap-6 text-[#757575] font-medium">
           <Link href="/app-download" className="hover:text-primary transition-colors">Save More on App</Link>
-          <Link href="/seller" className="hover:text-primary transition-colors">Become a Seller</Link>
+          <Link href={user?.role === 'SELLER' ? '/seller/dashboard' : '/seller'} className="hover:text-primary transition-colors flex items-center gap-1 font-bold">
+            <Store className="w-3 h-3" /> {user?.role === 'SELLER' ? 'Seller Center' : 'Become a Seller'}
+          </Link>
           <Link href="/help" className="hover:text-primary transition-colors">Help & Support</Link>
           
-          {!isLoggedIn ? (
+          {!user ? (
             <>
               <Link href="/auth/login" className="hover:text-primary transition-colors uppercase font-bold text-gray-800">Login</Link>
               <Link href="/auth/signup" className="hover:text-primary transition-colors uppercase font-bold text-gray-800 border-l pl-6">Sign Up</Link>
@@ -76,11 +101,11 @@ export default function Navbar() {
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-4 lg:gap-8">
             {/* Logo */}
-            <Link href="/admin" className="shrink-0 group" title="Click for Admin Panel">
+            <Link href="/" className="shrink-0 group">
               <span className="text-2xl lg:text-3xl font-black text-primary tracking-tighter group-hover:opacity-80 transition-opacity">TechShop BD</span>
             </Link>
 
-            {/* Search Bar (Hidden on very small mobile, shown on md+) */}
+            {/* Search Bar */}
             <div className="flex-1 max-w-2xl relative hidden sm:flex group">
               <Input 
                 type="text" 
@@ -94,12 +119,12 @@ export default function Navbar() {
 
             {/* Actions */}
             <div className="flex items-center gap-4 lg:gap-6">
-              {isLoggedIn ? (
+              {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
                     <Button variant="ghost" className="relative h-9 w-9 lg:h-10 lg:w-10 rounded-full border-2 border-primary/20 p-0 overflow-hidden">
                       <Avatar className="h-full w-full">
-                        <AvatarImage src="https://picsum.photos/seed/user1/100/100" />
+                        <AvatarImage src={`https://picsum.photos/seed/${user.email}/100/100`} />
                         <AvatarFallback><User className="w-5 h-5" /></AvatarFallback>
                       </Avatar>
                     </Button>
@@ -107,8 +132,9 @@ export default function Navbar() {
                   <DropdownMenuContent className="w-56" align="end" forceMount>
                     <DropdownMenuLabel className="font-normal">
                       <div className="flex flex-col space-y-1">
-                        <p className="text-sm font-bold leading-none">Rahman Ahmed</p>
-                        <p className="text-xs leading-none text-muted-foreground">rahman@example.com</p>
+                        <p className="text-sm font-bold leading-none">{user.name}</p>
+                        <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
+                        <Badge variant="outline" className="w-fit text-[10px] mt-1">{user.role}</Badge>
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
@@ -118,12 +144,22 @@ export default function Navbar() {
                         <span>Profile</span>
                       </DropdownMenuItem>
                     </Link>
-                    <Link href="/admin">
-                      <DropdownMenuItem className="cursor-pointer">
-                        <SettingsIcon className="mr-2 h-4 w-4" />
-                        <span>Admin Panel</span>
-                      </DropdownMenuItem>
-                    </Link>
+                    {user.role === 'SELLER' && (
+                      <Link href="/seller/dashboard">
+                        <DropdownMenuItem className="cursor-pointer">
+                          <Store className="mr-2 h-4 w-4" />
+                          <span>Seller Center</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
+                    {user.role === 'ADMIN' && (
+                      <Link href="/admin">
+                        <DropdownMenuItem className="cursor-pointer">
+                          <SettingsIcon className="mr-2 h-4 w-4" />
+                          <span>Admin Panel</span>
+                        </DropdownMenuItem>
+                      </Link>
+                    )}
                     <DropdownMenuSeparator />
                     <DropdownMenuItem className="cursor-pointer text-destructive focus:text-destructive" onClick={handleLogout}>
                       <LogOut className="mr-2 h-4 w-4" />
@@ -159,7 +195,7 @@ export default function Navbar() {
             </div>
           </div>
           
-          {/* Mobile Search Bar (Only shown on small screens) */}
+          {/* Mobile Search Bar */}
           <div className="mt-3 sm:hidden relative group">
             <Input 
               type="text" 
@@ -188,19 +224,21 @@ export default function Navbar() {
                 <Link href="/" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                   <HomeIcon className="w-5 h-5 text-primary" /> Home
                 </Link>
-                <Link href={isLoggedIn ? "/profile" : "/auth/login"} className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                  <User className="w-5 h-5 text-primary" /> {isLoggedIn ? "My Profile" : "Login / Signup"}
+                <Link href={user ? "/profile" : "/auth/login"} className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
+                  <User className="w-5 h-5 text-primary" /> {user ? "My Profile" : "Login / Signup"}
                 </Link>
-                <Link href="/admin" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                  <SettingsIcon className="w-5 h-5 text-primary" /> Admin Panel
-                </Link>
+                {user?.role === 'SELLER' && (
+                  <Link href="/seller/dashboard" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
+                    <Store className="w-5 h-5 text-primary" /> Seller Center
+                  </Link>
+                )}
                 <Link href="/seller" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                   <Smartphone className="w-5 h-5 text-primary" /> Become a Seller
                 </Link>
                 <Link href="/help" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                   <Globe className="w-5 h-5 text-primary" /> Help & Support
                 </Link>
-                {isLoggedIn && (
+                {user && (
                   <button className="flex items-center gap-3 text-destructive" onClick={() => { handleLogout(); setIsMenuOpen(false); }}>
                     <LogOut className="w-5 h-5" /> Logout
                   </button>

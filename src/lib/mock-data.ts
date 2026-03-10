@@ -1,6 +1,8 @@
 
 import { PlaceHolderImages } from './placeholder-images';
 
+export type UserRole = 'BUYER' | 'SELLER' | 'ADMIN';
+
 export type Product = {
   id: string;
   name: string;
@@ -14,6 +16,7 @@ export type Product = {
   rating?: number;
   reviewsCount?: number;
   brand?: string;
+  sellerId: string; // Added to identify which user owns the product
   specifications: Record<string, string>;
 };
 
@@ -38,6 +41,7 @@ export const products: Product[] = [
     price: 1142,
     originalPrice: 1604,
     brand: 'No Brand',
+    sellerId: 'seller123',
     image: 'https://picsum.photos/seed/dji1/600/600',
     description: '3D printed ABS engineering material molded in one piece Structure optimization, ultra-lightweight design Snap installation, no need to disassemble the fuselage screws. Does not affect the palm takeoff and landing. Easy to install, quick release design, snap-on fixation.',
     rating: 0,
@@ -57,6 +61,7 @@ export const products: Product[] = [
     category: 'fashion',
     price: 156,
     originalPrice: 588,
+    sellerId: 'admin',
     image: PlaceHolderImages.find(img => img.id === 'prod-loafer')?.imageUrl || '',
     description: 'Comfortable loafers for men, waterproof and stylish.',
     isFlashSale: true,
@@ -70,6 +75,7 @@ export const products: Product[] = [
     category: 'groceries',
     price: 255,
     originalPrice: 400,
+    sellerId: 'admin',
     image: PlaceHolderImages.find(img => img.id === 'prod-surf')?.imageUrl || '',
     description: 'Effective liquid detergent for top load washing machines.',
     isFlashSale: true,
@@ -83,6 +89,7 @@ export const products: Product[] = [
     category: 'groceries',
     price: 99,
     originalPrice: 150,
+    sellerId: 'admin',
     image: PlaceHolderImages.find(img => img.id === 'prod-laccha')?.imageUrl || '',
     description: 'Premium quality laccha semai for your festive moments.',
     isFlashSale: true,
@@ -96,6 +103,7 @@ export const products: Product[] = [
     category: 'health',
     price: 147,
     originalPrice: 420,
+    sellerId: 'admin',
     image: PlaceHolderImages.find(img => img.id === 'prod-syrup')?.imageUrl || '',
     description: 'Health syrup combo pack for daily wellness.',
     isFlashSale: true,
@@ -109,6 +117,7 @@ export const products: Product[] = [
     category: 'beauty',
     price: 526,
     originalPrice: 700,
+    sellerId: 'admin',
     image: PlaceHolderImages.find(img => img.id === 'prod-shampoo')?.imageUrl || '',
     description: 'Get thick and long hair with Sunsilk lusciously thick & long.',
     isFlashSale: true,
@@ -122,47 +131,12 @@ export const products: Product[] = [
     category: 'beauty',
     price: 69,
     originalPrice: 90,
+    sellerId: 'admin',
     image: PlaceHolderImages.find(img => img.id === 'prod-handwash')?.imageUrl || '',
     description: 'Germ protection handwash refill from Lifebuoy.',
     isFlashSale: true,
     rating: 4.9,
     reviewsCount: 3400,
     specifications: { "Volume": "170ml" }
-  },
-  {
-    id: 'j1',
-    name: 'Portable Mini Rechargeable Travel Fan 3 Gear Speed',
-    category: 'electronics',
-    price: 288,
-    originalPrice: 1300,
-    image: PlaceHolderImages.find(img => img.id === 'prod-fan')?.imageUrl || '',
-    description: 'Compact and powerful travel fan with 3 speed modes.',
-    rating: 4.8,
-    reviewsCount: 2,
-    specifications: { "Battery": "Rechargeable", "Speeds": "3" }
-  },
-  {
-    id: 'j2',
-    name: 'New designed Gown 1 piece long kurti For Women',
-    category: 'fashion',
-    price: 420,
-    originalPrice: 1200,
-    image: PlaceHolderImages.find(img => img.id === 'prod-gown')?.imageUrl || '',
-    description: 'Elegant long kurti gown for stylish women.',
-    rating: 4.5,
-    reviewsCount: 141,
-    specifications: { "Fabric": "Cotton", "Style": "Gown" }
-  },
-  {
-    id: 'j3',
-    name: '18 Colors Eyeshadow Palette Glitter Makeup Matte',
-    category: 'beauty',
-    price: 180,
-    originalPrice: 500,
-    image: PlaceHolderImages.find(img => img.id === 'prod-makeup')?.imageUrl || '',
-    description: 'Professional makeup palette with 18 vibrant colors.',
-    rating: 4.9,
-    reviewsCount: 359,
-    specifications: { "Colors": "18", "Finish": "Matte & Glitter" }
   }
 ];
