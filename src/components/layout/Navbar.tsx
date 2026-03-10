@@ -13,8 +13,7 @@ import {
   LogOut, 
   Settings as SettingsIcon,
   Home as HomeIcon,
-  Store,
-  MessageSquare
+  Store
 } from 'lucide-react';
 import { useState, useEffect } from 'react';
 import { useCart } from '@/context/CartContext';
@@ -69,7 +68,6 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 w-full">
-      {/* Top bar (Desktop Only) */}
       <div className="bg-[#f5f5f5] text-[12px] py-1.5 hidden lg:block border-b">
         <div className="container mx-auto px-4 flex justify-end items-center gap-6 text-[#757575] font-medium">
           <Link href="/app-download" className="hover:text-primary transition-colors">Save More on App</Link>
@@ -97,16 +95,13 @@ export default function Navbar() {
         </div>
       </div>
 
-      {/* Main Nav */}
       <nav className="bg-white border-b shadow-sm py-3 lg:py-4">
         <div className="container mx-auto px-4">
           <div className="flex items-center justify-between gap-4 lg:gap-8">
-            {/* Logo */}
             <Link href="/" className="shrink-0 group">
               <span className="text-2xl lg:text-3xl font-black text-primary tracking-tighter group-hover:opacity-80 transition-opacity">TechShop BD</span>
             </Link>
 
-            {/* Search Bar */}
             <div className="flex-1 max-w-2xl relative hidden sm:flex group">
               <Input 
                 type="text" 
@@ -118,14 +113,7 @@ export default function Navbar() {
               </button>
             </div>
 
-            {/* Actions */}
             <div className="flex items-center gap-4 lg:gap-6">
-              {user && (
-                <Link href="/chat" className="relative group hidden sm:block">
-                  <MessageSquare className="w-6 h-6 lg:w-7 lg:h-7 text-gray-700 group-hover:text-primary transition-colors" />
-                </Link>
-              )}
-
               {user ? (
                 <DropdownMenu>
                   <DropdownMenuTrigger asChild>
@@ -141,7 +129,6 @@ export default function Navbar() {
                       <div className="flex flex-col space-y-1">
                         <p className="text-sm font-bold leading-none">{user.name}</p>
                         <p className="text-xs leading-none text-muted-foreground">{user.email}</p>
-                        <Badge variant="outline" className="w-fit text-[10px] mt-1">{user.role}</Badge>
                       </div>
                     </DropdownMenuLabel>
                     <DropdownMenuSeparator />
@@ -151,25 +138,11 @@ export default function Navbar() {
                         <span>Profile</span>
                       </DropdownMenuItem>
                     </Link>
-                    <Link href="/chat">
-                      <DropdownMenuItem className="cursor-pointer">
-                        <MessageSquare className="mr-2 h-4 w-4" />
-                        <span>Chats</span>
-                      </DropdownMenuItem>
-                    </Link>
                     {user.role === 'SELLER' && (
                       <Link href="/seller/dashboard">
                         <DropdownMenuItem className="cursor-pointer">
                           <Store className="mr-2 h-4 w-4" />
                           <span>Seller Center</span>
-                        </DropdownMenuItem>
-                      </Link>
-                    )}
-                    {user.role === 'ADMIN' && (
-                      <Link href="/admin">
-                        <DropdownMenuItem className="cursor-pointer">
-                          <SettingsIcon className="mr-2 h-4 w-4" />
-                          <span>Admin Panel</span>
                         </DropdownMenuItem>
                       </Link>
                     )}
@@ -208,7 +181,6 @@ export default function Navbar() {
             </div>
           </div>
           
-          {/* Mobile Search Bar */}
           <div className="mt-3 sm:hidden relative group">
             <Input 
               type="text" 
@@ -221,11 +193,10 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* Mobile Sidebar Menu */}
         {isMenuOpen && (
           <div className="lg:hidden fixed inset-0 z-50 bg-black/50" onClick={() => setIsMenuOpen(false)}>
             <div 
-              className="absolute left-0 top-0 h-full w-[280px] bg-white p-6 space-y-8 animate-in slide-in-from-left duration-300 shadow-2xl"
+              className="absolute left-0 top-0 h-full w-[280px] bg-white p-6 space-y-8 shadow-2xl"
               onClick={(e) => e.stopPropagation()}
             >
               <div className="flex items-center justify-between">
@@ -240,11 +211,6 @@ export default function Navbar() {
                 <Link href={user ? "/profile" : "/auth/login"} className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                   <User className="w-5 h-5 text-primary" /> {user ? "My Profile" : "Login / Signup"}
                 </Link>
-                {user && (
-                  <Link href="/chat" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
-                    <MessageSquare className="w-5 h-5 text-primary" /> My Chats
-                  </Link>
-                )}
                 {user?.role === 'SELLER' && (
                   <Link href="/seller/dashboard" className="flex items-center gap-3" onClick={() => setIsMenuOpen(false)}>
                     <Store className="w-5 h-5 text-primary" /> Seller Center
@@ -261,16 +227,6 @@ export default function Navbar() {
                     <LogOut className="w-5 h-5" /> Logout
                   </button>
                 )}
-              </div>
-
-              <div className="pt-8 border-t">
-                <button 
-                  onClick={toggleLanguage}
-                  className="w-full py-3 bg-primary/5 rounded-xl text-primary font-bold flex items-center justify-center gap-2"
-                >
-                  <Globe className="w-4 h-4" />
-                  {language === 'BN' ? 'Switch to English' : 'বাংলা ভার্সন'}
-                </button>
               </div>
             </div>
           </div>
