@@ -101,12 +101,18 @@ export default function SellerDashboard() {
 
   const handleSaveStoreInfo = (e: React.FormEvent) => {
     e.preventDefault();
-    const updatedUser = { ...user, shopName: (e.target as any).shopName.value };
+    const target = e.target as any;
+    const updatedUser = { 
+      ...user, 
+      shopName: target.shopName.value,
+      address: target.shopAddress.value,
+      phone: target.shopPhone.value
+    };
     setUser(updatedUser);
     localStorage.setItem('techshop_user', JSON.stringify(updatedUser));
     toast({
-      title: "Store Updated",
-      description: "Your business details have been saved."
+      title: "Store Profile Updated",
+      description: "Your business details have been saved to your account."
     });
   };
 
@@ -171,7 +177,7 @@ export default function SellerDashboard() {
           <div className="flex items-center gap-4">
             <Link href="/">
               <Button variant="outline" size="sm" className="gap-2 rounded-full border-primary text-primary hover:bg-primary/5">
-                <ArrowLeft className="w-4 h-4" /> Exit to Store
+                <ArrowLeft className="w-4 h-4" /> View Store
               </Button>
             </Link>
             <h1 className="text-xl font-bold text-gray-800">{user.shopName || 'My Store'}</h1>
@@ -276,12 +282,12 @@ export default function SellerDashboard() {
                 <Card className="border-none shadow-sm bg-white overflow-hidden group">
                   <div className="h-1 bg-blue-500 w-0 group-hover:w-full transition-all duration-300" />
                   <CardHeader className="flex flex-row items-center justify-between pb-2">
-                    <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">Active Inventory</CardTitle>
+                    <CardTitle className="text-sm font-medium text-gray-500 uppercase tracking-wider">My Active Inventory</CardTitle>
                     <div className="p-2 bg-blue-50 rounded-lg"><Package className="w-4 h-4 text-blue-600" /></div>
                   </CardHeader>
                   <CardContent>
                     <div className="text-3xl font-black text-gray-800">{sellerProducts.length}</div>
-                    <p className="text-xs text-muted-foreground mt-2">Products live in store</p>
+                    <p className="text-xs text-muted-foreground mt-2">Products posted by you</p>
                   </CardContent>
                 </Card>
                 <Card className="border-none shadow-sm bg-white overflow-hidden group">
@@ -299,21 +305,19 @@ export default function SellerDashboard() {
 
               <Card className="border-none shadow-sm">
                 <CardHeader>
-                  <CardTitle className="text-lg">Recent Seller News</CardTitle>
+                  <CardTitle className="text-lg">Recent Shop Insights</CardTitle>
                   <CardDescription>Tips to grow your business on TechShop BD</CardDescription>
                 </CardHeader>
                 <CardContent className="space-y-4">
-                  {[1, 2].map((i) => (
-                    <div key={i} className="flex gap-4 p-4 rounded-xl bg-gray-50 hover:bg-white border-2 border-transparent hover:border-primary/20 transition-all cursor-pointer">
-                      <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
-                        <Info className="w-6 h-6" />
-                      </div>
-                      <div>
-                        <h4 className="font-bold text-gray-800">New Campaign: Monsoon Mega Sale 2024</h4>
-                        <p className="text-sm text-gray-500 mt-1">Register your products now to get up to 2x more visibility during the monsoon sale event.</p>
-                      </div>
+                  <div className="flex gap-4 p-4 rounded-xl bg-gray-50 hover:bg-white border-2 border-transparent hover:border-primary/20 transition-all cursor-pointer">
+                    <div className="w-16 h-16 bg-primary/10 rounded-xl flex items-center justify-center text-primary shrink-0">
+                      <Info className="w-6 h-6" />
                     </div>
-                  ))}
+                    <div>
+                      <h4 className="font-bold text-gray-800">New Campaign: Mega Sale 2025</h4>
+                      <p className="text-sm text-gray-500 mt-1">Register your products now to get up to 2x more visibility during the upcoming sale event.</p>
+                    </div>
+                  </div>
                 </CardContent>
               </Card>
             </>
@@ -323,8 +327,8 @@ export default function SellerDashboard() {
             <Card className="border-none shadow-sm">
               <CardHeader className="flex flex-row items-center justify-between">
                 <div>
-                  <CardTitle>My Inventory</CardTitle>
-                  <CardDescription>Manage your product listings and stock levels.</CardDescription>
+                  <CardTitle>My Posted Products</CardTitle>
+                  <CardDescription>Manage your personal listings and stock levels.</CardDescription>
                 </div>
                 <div className="relative">
                   <Search className="absolute left-3 top-2.5 h-4 w-4 text-gray-400" />
@@ -356,7 +360,7 @@ export default function SellerDashboard() {
                         <TableCell colSpan={4} className="text-center py-20 text-muted-foreground bg-gray-50/30">
                           <div className="flex flex-col items-center gap-2">
                             <Box className="w-12 h-12 text-gray-300" />
-                            <p className="font-medium">No products listed yet.</p>
+                            <p className="font-medium">You haven't posted any products yet.</p>
                             <Button variant="link" className="text-primary font-bold" onClick={() => setIsAddingProduct(true)}>Add your first item</Button>
                           </div>
                         </TableCell>
@@ -372,31 +376,33 @@ export default function SellerDashboard() {
             <div className="max-w-2xl">
               <Card className="border-none shadow-sm">
                 <CardHeader>
-                  <CardTitle>Store Information</CardTitle>
-                  <CardDescription>How your shop appears to buyers across Bangladesh.</CardDescription>
+                  <CardTitle>My Store Profile</CardTitle>
+                  <CardDescription>Manage your business identity and pickup location.</CardDescription>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSaveStoreInfo} className="space-y-6">
                     <div className="space-y-4">
                       <div className="space-y-2">
                         <Label htmlFor="shopName" className="font-bold flex items-center gap-2">
-                          <Store className="w-4 h-4 text-primary" /> Shop Name
+                          <Store className="w-4 h-4 text-primary" /> My Shop Name
                         </Label>
                         <Input 
                           id="shopName" 
                           name="shopName"
-                          defaultValue={user.shopName}
+                          defaultValue={user.shopName || `${user.name}'s Store`}
                           required 
                           className="rounded-xl border-gray-200 h-11"
                         />
                       </div>
                       <div className="space-y-2">
                         <Label htmlFor="shopAddress" className="font-bold flex items-center gap-2">
-                          <MapPin className="w-4 h-4 text-primary" /> Pickup Address
+                          <MapPin className="w-4 h-4 text-primary" /> Warehouse / Pickup Address
                         </Label>
                         <Input 
                           id="shopAddress" 
-                          placeholder="Your business address"
+                          name="shopAddress"
+                          defaultValue={user.address}
+                          placeholder="Your business pickup location"
                           className="rounded-xl border-gray-200 h-11"
                         />
                       </div>
@@ -407,6 +413,8 @@ export default function SellerDashboard() {
                           </Label>
                           <Input 
                             id="shopPhone" 
+                            name="shopPhone"
+                            defaultValue={user.phone}
                             placeholder="+880..."
                             className="rounded-xl border-gray-200 h-11"
                           />
@@ -426,7 +434,7 @@ export default function SellerDashboard() {
                       </div>
                     </div>
                     <Button type="submit" className="w-full bg-primary text-white font-bold rounded-full h-12 shadow-lg shadow-primary/20 hover:brightness-110 gap-2">
-                      <Save className="w-5 h-5" /> Save Store Profile
+                      <Save className="w-5 h-5" /> Save Shop Identity
                     </Button>
                   </form>
                 </CardContent>
